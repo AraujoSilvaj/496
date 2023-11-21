@@ -20,7 +20,7 @@ from pyvesc import GetFirmwareVersion, \
     SetCurrentGetPosCumulative, \
     SetPositionCumulative, SetTerminalCommand, \
     GetPrint, GetConfig, SetConfig, \
-    SetAlive, GetDetectEncoder 
+    SetAlive, GetDetectEncoder, SetServoPosition
 import serial
 import os
 #import math
@@ -107,7 +107,8 @@ def do_VESC():
                     #ser.write(pyvesc.encode(SetRPM(1000))) 
                     if oldRPM != desired_rpm: 
                       print(f"Desired: {desired_rpm}") 
-                      ser.write(pyvesc.encode(SetRPM(desired_rpm)))  
+                      #ser.write(pyvesc.encode(SetRPM(desired_rpm)))  
+                      ser.write(pyvesc.encode(SetServoPosition(desired_rpm))) 
                       oldRPM = desired_rpm    
                     # Report refesh rate
                     print(f"VESC refresh rate: {1.0/(time.time() - last_sample_time):0.1f}")   

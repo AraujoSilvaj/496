@@ -231,5 +231,15 @@ class SetAlive(metaclass=VESCMessage):
     can_id = None
     fields = []
 
+## PGT
+class SetServoPosition(metaclass=VESCMessage):
+    """Sets the position of s servo connected to the VESC.
 
+    :ivar servo_pos: Value of position (range [0, 1])
+    """
+
+    id = 12  # See https://github.com/LiamBindle/PyVESC/blob/master/pyvesc/VESC/messages/Vedder_BLDC_Commands.py
+    fields = [
+        ('servo_pos', 'i', 1000)
+    ]
         
