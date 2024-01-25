@@ -2,13 +2,13 @@ import cv2
 import os
 import time
 
-directory = '/home/robot/Pictures/front'
+directory = '/home/avc/Pictures/front'
 
 c = cv2.VideoCapture(0)
 c.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'))
 
-c.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
-c.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+c.set(cv2.CAP_PROP_FRAME_WIDTH, 320)
+c.set(cv2.CAP_PROP_FRAME_HEIGHT, 240)
 
 os.chdir(directory)
 
@@ -38,4 +38,4 @@ while True:
 	else:
 		print(f'Same frame -->{cv2.countNonZero(thresholded_diff)}')
 	time.sleep(0.5)
-	prev_frame = frame	
+	prev_frame = frame
