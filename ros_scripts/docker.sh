@@ -1,2 +1,3 @@
 #!/bin/bash
-docker run -it --rm --net=host --device=/dev/video0 -v /dev/shm:/dev/shm -v ~/496:/496 --gpus all nvidia/cuda:11.0-base nvidia-smi  ros:humble-ros-base 
+docker run -it --rm --net=host --gpus all --device=/dev/video0 -v /dev/shm:/dev/shm -v ~/496:/496 7806f6d82dac 
+#ros:humble-ros-base 

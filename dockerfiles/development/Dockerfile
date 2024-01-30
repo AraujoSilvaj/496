@@ -5,6 +5,7 @@ RUN apt install -y python3-pip
 RUN pip3 install --upgrade TensorFlow
 RUN apt-get install -y ros-humble-demo-nodes-cpp
 RUN apt-get install -y nano
+RUN apt install vim
 RUN apt-get install -y python3-pandas
 RUN apt-get install -y python3-opencv 
 RUN apt-get install python3-matplotlib
