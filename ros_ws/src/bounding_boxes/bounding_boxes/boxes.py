@@ -8,8 +8,8 @@ import time
 
 import rclpy
 from rclpy.node import Node
-from std_msgs.msg import float32MultiArray
-
+from std_msgs.msg import Float32MultiArray
+#import ros2py
 
 labelling_model = load_model("../nn-files/model-2023-12-24-13_00-320x240-55549.keras")
 predictor_model = load_model("../nn-files/model-detector-2023-12-24-13_01-320x240-55549.keras")
@@ -40,7 +40,8 @@ def showBox(im, boxes):
 
 count = 0
 
-while(True):
+def nn_predictions():
+	boxes = []
 	ret, img = c.read()
 	#img= cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 	#img_arr = image.img_to_array(img)
@@ -50,18 +51,26 @@ while(True):
 	#img_arr = preprocess_input(img_arr)
 	predictions = predictor_model.predict(img_arr)	
 
-	print("Prediction:", predictions)
+	 #print("Prediction:", predictions)
 	
 	if (predictions > 0.5):
-		boxes = labelling_model.predict(img_arr)
+		boxes = labelling_model.predict(img_arr).tolist
 		label_box = showBox(img, boxes)
+		#print(boxes)
+
 	else:
 		label_box = img
+	
+	#box1 = boxes.tolist()
 
-#x, y, height = predictions[0]	
-	cv2.imwrite(f"image{count}.jpg",label_box)
+	return boxes
+
+	#x, y, height = predictions[0]	
+	'''cv2.imwrite(f"image{count}.jpg",label_box)
 	count += count
-	time.sleep(.2)
+	time.sleep(.2)'''
+
+
 
 
 #print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
@@ -69,16 +78,19 @@ class MinimalPublisher(Node):
 
     def __init__(self):
         super().__init__('minimal_publisher')
-        self.publisher_ = self.create_publisher(String, 'topic', 10)
+	#msg = nn_predictions()
+        self.publisher_ = self.create_publisher(Float32MultiArray, 'boxes', 1)
         timer_period = 0.5  # seconds
         self.timer = self.create_timer(timer_period, self.timer_callback)
         self.i = 0
 
     def timer_callback(self):
-        msg = String()
-        msg.data = 'Hello World: %d' % self.i
+        msg = Float32MultiArray()
+        msg.data = nn_predictions()
+        #self.publisher_.publish(list(map(float, msg)))
+        print(msg.data)
         self.publisher_.publish(msg)
-        self.get_logger().info('Publishing: "%s"' % msg.data)
+        #self.get_logger().info('Publishing: "%s"' % msg.data)
         self.i += 1
 
 
