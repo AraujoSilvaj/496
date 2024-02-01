@@ -1,19 +1,29 @@
 FROM ros:humble-ros-base   
 RUN apt update
-RUN apt install -y apt-utils 
-RUN apt install -y python3-pip
+RUN apt-get update && apt install -y \
+	apt-utils \
+	python3-pip \
+	&& rm -rf /var/lib/apt/lists/*
+
+
+
+#RUN apt-get update && apt-get install -y  \
+#	nano \
+#	vim \
+#	python3-pandas \
+#	python3-opencv  \
+#	python3-matplotlib \
+#	libgl1 \ 
+#	python3-sklearn \
+#	&& rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update && apt-get install -y \
+	ros-humble-demo-nodes-cpp \
+	ros-humble-serial-driver \
+	ros-humble-ackermann-msgs \
+	&& rm -rf /var/lib/apt/lists/*
+
 RUN pip3 install --upgrade TensorFlow
-RUN apt-get install -y ros-humble-demo-nodes-cpp \
-	nano \
-	vim \
-	python3-pandas \
-	python3-opencv  \
-	python3-matplotlib \
-	libgl1 \ 
-	python3-sklearn
-
-
-RUN rm -rf /var/lib/apt/lists/*
 
 CMD ["bash"]
 
