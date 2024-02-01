@@ -7,15 +7,15 @@ RUN apt-get update && apt install -y \
 
 
 
-#RUN apt-get update && apt-get install -y  \
+RUN apt-get update && apt-get install -y  \
 #	nano \
 #	vim \
 #	python3-pandas \
-#	python3-opencv  \
+	python3-opencv  \
 #	python3-matplotlib \
 #	libgl1 \ 
 #	python3-sklearn \
-#	&& rm -rf /var/lib/apt/lists/*
+	&& rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update && apt-get install -y \
 	ros-humble-demo-nodes-cpp \

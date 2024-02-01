@@ -24,3 +24,6 @@ setup(
         ],
     },
 )
+
+# ldconfig /usr/lib/aarch64-linux-gnu/tegra/
+
