@@ -21,9 +21,10 @@ RUN apt-get update && apt-get install -y \
 	ros-humble-demo-nodes-cpp \
 	ros-humble-serial-driver \
 	ros-humble-ackermann-msgs \
+	ros-humble-nmea-msgs \
 	&& rm -rf /var/lib/apt/lists/*
 
-RUN pip3 install --upgrade TensorFlow
+RUN pip3 install --upgrade TensorFlow pyserial
 
 CMD ["bash"]
 
