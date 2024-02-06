@@ -8,8 +8,9 @@ import time
 
 import rclpy
 from rclpy.node import Node
-from std_msgs.msg import float32MultiArray
-
+from std_msgs.msg import Float32MultiArray
+from sensor_msgs.msg import Image
+#import ros2py
 
 labelling_model = load_model("../nn-files/model-2023-12-24-13_00-320x240-55549.keras")
 predictor_model = load_model("../nn-files/model-detector-2023-12-24-13_01-320x240-55549.keras")
@@ -40,28 +41,38 @@ def showBox(im, boxes):
 
 count = 0
 
-while(True):
+def nn_predictions():
+	boxes = np.array([])
 	ret, img = c.read()
 	#img= cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 	#img_arr = image.img_to_array(img)
-	img_arr= np.asarray(img).astype("float32")	
+	img_arr= np.asarray(img).astype("float32")  # THIS MAY NEED TO CHANGE	
 	img_arr /= 255.0
 	img_arr = np.expand_dims(img_arr, axis=0)	
 	#img_arr = preprocess_input(img_arr)
 	predictions = predictor_model.predict(img_arr)	
 
-	print("Prediction:", predictions)
+	 #print("Prediction:", predictions)
 	
 	if (predictions > 0.5):
 		boxes = labelling_model.predict(img_arr)
-		label_box = showBox(img, boxes)
-	else:
-		label_box = img
+		labeled_box = showBox(img, boxes)
+		return (boxes[0], labeled_box)
 
-#x, y, height = predictions[0]	
-	cv2.imwrite(f"image{count}.jpg",label_box)
+	else:
+                # No buckets found
+		return (boxes, img)
+	
+	#box1 = boxes.tolist()
+
+	return boxes
+
+	#x, y, height = predictions[0]	
+	'''cv2.imwrite(f"image{count}.jpg",label_box)
 	count += count
-	time.sleep(.2)
+	time.sleep(.2)'''
+
+
 
 
 #print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
@@ -69,17 +80,37 @@ class MinimalPublisher(Node):
 
     def __init__(self):
         super().__init__('minimal_publisher')
-        self.publisher_ = self.create_publisher(String, 'topic', 10)
+	#msg = nn_predictions()
+        self.publisher_ = self.create_publisher(Float32MultiArray, 'boxes', 1)
+        self.im_publisher_ = self.create_publisher(Image, 'label_boxes', 1)
         timer_period = 0.5  # seconds
         self.timer = self.create_timer(timer_period, self.timer_callback)
-        self.i = 0
 
     def timer_callback(self):
-        msg = String()
-        msg.data = 'Hello World: %d' % self.i
+        
+        (predict, image) = nn_predictions() 
+
+        # TODO publish image as a topic
+        # processes image data and converts to ros 2 message
+        msg = Image()
+        msg.header.stamp = Node.get_clock(self).now().to_msg()
+        msg.header.frame_id = 'ANI717'
+        msg.height = np.shape(image)[0]
+        msg.width = np.shape(image)[1]
+        msg.encoding = "bgr8"
+        msg.is_bigendian = False
+        msg.step = np.shape(image)[2] * np.shape(image)[1]
+        msg.data = np.array(image).tobytes()
+        self.im_publisher_.publish(msg)
+                
+        # Publish the bounding boxes
+        msg = Float32MultiArray()
+        temp = predict.astype('float16').tolist()
+        msg.data = list(map(float, temp))
+
+        #print(msg.data)
         self.publisher_.publish(msg)
-        self.get_logger().info('Publishing: "%s"' % msg.data)
-        self.i += 1
+        #self.get_logger().info('Publishing: "%s"' % msg.data)
 
 
 def main(args=None):

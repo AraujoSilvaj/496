@@ -20,6 +20,10 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+		'talker = bounding_boxes.boxes:main',
         ],
     },
 )
+
+# ldconfig /usr/lib/aarch64-linux-gnu/tegra/
+
