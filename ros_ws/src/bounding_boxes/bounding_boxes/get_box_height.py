@@ -103,7 +103,7 @@ class LaserScanPublisher(Node):
 		scan.angle_increment = 3.14/num_readings
 		scan.time_increment = (1.0 / laser_frequency) / num_readings
 		scan.range_min = 0.0
-		scan.range_max = 100
+		scan.range_max = 100.0
 		
 		scan.ranges = []
 		scan.intensities = []
@@ -125,8 +125,8 @@ def main(args=None):
 	box_subscriber = BoxSubscriber()
 	laser_scan_publisher = LaserScanPublisher()
 	
-	#rclpy.spin(box_subscriber)
-	rclpy.spin(laser_scan_publisher)
+	rclpy.spin(box_subscriber)
+	#rclpy.spin(laser_scan_publisher)
 	
 	box_subscriber.destroy_node()
 	laser_scan_publisher.destroy_node()
@@ -159,7 +159,7 @@ def pixel_to_distance(lst):
 		distance_list = [calculate_distance(height) for height in heights]
 		print(distance_list)
 		return distance_list
-	else
+	else:
 		return []
 
 def calculate_distance(h):
@@ -171,7 +171,7 @@ def x_to_rads(lst):
 		angle_list = [calculate_angle(x) for x in x_coords]
 		print(angle_list)
 		return(angle_list)
-	else
+	else:
 		return []
 		
 def calculate_angle(x):
