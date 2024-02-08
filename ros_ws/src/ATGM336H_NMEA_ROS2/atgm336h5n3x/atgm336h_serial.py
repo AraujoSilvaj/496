@@ -16,7 +16,7 @@ class ATGM336H_Serial():
                      "GNRMC": None, "GNVTG": None, 
                      "GNZDA": None, "GPTXT": None}
 
-    def connect(self, dev:str = '/dev/ttyUSB0', baud_rate:int = 9600, timeout:int = 1):
+    def connect(self, dev:str = '/dev/ttyGPS', baud_rate:int = 9600, timeout:int = 1):
         try:
             self.ser = serial.Serial(dev, baud_rate, timeout=timeout)
             self.is_available = self.ser.is_open
