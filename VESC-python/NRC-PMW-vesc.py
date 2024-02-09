@@ -32,8 +32,8 @@ import threading
 
 # Set your serial port here (either /dev/ttyX or COMX)
 #serialport = '/dev/cu.usbmodem3011'
-# serialport = '/dev/ttyACM0'
-serialport = 'COM3'
+serialport = '/dev/ttyVESC'
+#serialport = 'COM3'
 
 
 print("port " + serialport)
