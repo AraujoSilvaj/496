@@ -99,11 +99,11 @@ def do_VESC():
                       #" amp Hours Charged:" + str(response.amp_hours_charged) + 
                        "")'''
                     # Loop through all the properies of the reponse and print
-                    for field in vars(response):
+                    '''for field in vars(response):
                       if field[0] == "_":
                         continue
                       print(f"{field}: {vars(response)[field]}")
-                    
+                    '''
                     #print(dir(response))
 
                     if oldRPM != desired_rpm:
@@ -113,9 +113,8 @@ def do_VESC():
                         ser.write(pyvesc.encode(SetServoPosition(servo_pos)))
                         oldRPM = desired_rpm   
                     # Report refesh rate
-                    print(f"VESC refresh rate: {1.0/(time.time() - last_sample_time):0.1f}")   
-                    last_sample_time = time.time()   
-                    print()   
+                    #print(f"VESC refresh rate: {1.0/(time.time() - last_sample_time):0.1f}")   
+                    last_sample_time = time.time()      
 
 
                   

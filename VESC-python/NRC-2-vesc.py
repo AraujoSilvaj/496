@@ -30,8 +30,8 @@ import threading
 
 # Set your serial port here (either /dev/ttyX or COMX)
 # serialport = '/dev/cu.usbmodem3011'
-# serialport = '/dev/ttyACM0'
-serialport = 'COM3'
+serialport = '/dev/ttyVESC'
+#serialport = 'COM3'
 
 print("port " + serialport)
 
@@ -84,7 +84,7 @@ def do_VESC():
                         for field in vars(response):
                             if field[0] == "_":
                                 continue
-                            print(f"{field}: {vars(response)[field]}")
+                            #print(f"{field}: {vars(response)[field]}")
 
                         if oldRPM != desired_rpm:
                             print(f"Desired RPM: {desired_rpm}")
@@ -96,9 +96,9 @@ def do_VESC():
                                 ser.write(pyvesc.encode(SetDutyCycle(duty_cycle)))
                             oldRPM = desired_rpm
                             
-                        print(f"VESC refresh rate: {1.0 / (time.time() - last_sample_time):0.1f}")
+                        #print(f"VESC refresh rate: {1.0 / (time.time() - last_sample_time):0.1f}")
                         last_sample_time = time.time()
-                        print()
+                        #print()
 
         except KeyboardInterrupt:
             print("Turning off the VESC...")
