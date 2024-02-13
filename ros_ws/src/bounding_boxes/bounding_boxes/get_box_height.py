@@ -32,8 +32,7 @@ class BoxSubscriber(Node):
 		print('angles: ', angles)
 		
 
-#TODO
-# range_min,max units -> same as distances 'measured'
+# range_min,max units -> needs to be meters for SLAM
 # intensities = device specific, discarded for now
 # ranges = measured distances
 class LaserScanPublisher(Node):
@@ -57,8 +56,8 @@ class LaserScanPublisher(Node):
 		scan.angle_max = 0.681
 		scan.angle_increment = 3.14/num_readings
 		scan.time_increment = (1.0 / laser_frequency) / num_readings
-		scan.range_min = 2.0  # feet
-		scan.range_max = 60.0 # feet
+		scan.range_min = 0.5  # meters
+		scan.range_max = 30.0 # meters
 		
 		scan.ranges = []
 		scan.intensities = [1] * num_readings  # Filling with constant value 1
@@ -96,7 +95,7 @@ def pixel_to_distance(lst):
 		return []
 
 def calculate_distance(h):
-	return 0.6 / np.tan(h * 1.02 / 2)
+	return (0.6 / np.tan(h * 1.02 / 2)) / 3.281 # convert feet to meters for SLAM
 	
 def x_to_rads(lst):
 	x_coords = lst[0::3]
