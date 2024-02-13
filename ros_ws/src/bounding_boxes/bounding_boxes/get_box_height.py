@@ -4,16 +4,11 @@ from rclpy.node import Node
 from std_msgs.msg import Float32MultiArray
 from sensor_msgs.msg import LaserScan
 
-total_h_avg = []
-total_x_avg = []
-final_h_avg = []
-final_x_avg = []
-
 distance_list = []
 angle_list = []
 
-num_readings = 100
-laser_frequency = 40
+num_readings = 100  # number of readings in the laser scan, within our field of view
+laser_frequency = 4 # measured in Hz, will need to update if using GPU instead of CPU
 
 class BoxSubscriber(Node):
 
@@ -37,13 +32,10 @@ class BoxSubscriber(Node):
 		print('angles: ', angles)
 		
 
-#TODO get actual angle of vision = 78 degrees = +-39
-# convert actual angle to rads +-0.681 rads
-# 0 is at center of camera
-# update num_readings and laser_frequency
-# range_min,max units -> 
-# intensities = 
-# ranges = 
+#TODO
+# range_min,max units -> same as distances 'measured'
+# intensities = device specific, discarded for now
+# ranges = measured distances
 class LaserScanPublisher(Node):
 	
 	def __init__(self):
@@ -65,15 +57,14 @@ class LaserScanPublisher(Node):
 		scan.angle_max = 0.681
 		scan.angle_increment = 3.14/num_readings
 		scan.time_increment = (1.0 / laser_frequency) / num_readings
-		scan.range_min = 0.0
-		scan.range_max = 100.0
+		scan.range_min = 2.0  # feet
+		scan.range_max = 60.0 # feet
 		
 		scan.ranges = []
-		scan.intensities = []
+		scan.intensities = [1] * num_readings  # Filling with constant value 1
 		
 		for i in range(0, num_readings):
 			scan.ranges.append(1.0*self.count)		#fake data
-			scan.intensities.append(1)		#fake data
 			
 		self.publisher.publish(scan)
 		print("Laserscan:")
@@ -93,23 +84,7 @@ def main(args=None):
 	
 	box_subscriber.destroy_node()
 	laser_scan_publisher.destroy_node()
-	rclpy.shutdown()
-	
-
-def get_averages(lst):
-	heights = lst[2::3]
-	x_coords = lst[0::3]
-	
-	if heights:
-		h_avg = sum(heights) / len(heights)
-	
-	else:
-		return []
-	
-	if x_coords:
-		x_avg = sum(x_coords) / len(x_coords)		
-		
-	return x_avg, h_avg	
+	rclpy.shutdown()	
 
 def pixel_to_distance(lst):
 	heights = lst[2::3]
