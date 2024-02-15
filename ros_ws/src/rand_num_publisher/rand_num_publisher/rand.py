@@ -22,22 +22,6 @@ class MinimalPublisher(Node):
         msg = AckermannDriveStamped()
         msg.header.stamp = self.get_clock().now().to_msg()
         msg.header.frame_id = 'base_link'
-
-        #global count
-
-        '''msg.drive.steering_angle = 0.0  
-        msg.drive.speed = 1.0  
-        msg.drive.acceleration = 0.5
-        self.publisher.publish(msg)
-        print("Drive Forward")
-
-        #time.sleep(3)
-
-        msg.drive.steering_angle = 0.5  
-        msg.drive.speed = 1.0  
-        msg.drive.acceleration = 0.5
-        self.publisher.publish(msg)
-        print("Turn")'''
         
         if (self.i < 20): #driving straight for 10 sec 
             msg.drive.steering_angle = 0.0  
