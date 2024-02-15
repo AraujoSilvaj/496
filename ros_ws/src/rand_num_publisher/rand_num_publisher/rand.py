@@ -28,21 +28,11 @@ class MinimalPublisher(Node):
             msg.drive.speed = 0.25  
             msg.drive.acceleration = 0.5
             print("Drive Forward")
-        """elif (self.i < 26): #pause for 3 sec
-            msg.drive.steering_angle = 0.0  
-            msg.drive.speed = 0.0
-            msg.drive.acceleration = 0.0
-            print("Pause")"""
         elif (self.i < 9): #turn for 2 sec
             msg.drive.steering_angle = 0.84  
             msg.drive.speed = 0.1
             msg.drive.acceleration = 0.5
             print("Turn right")
-        """elif (self.i < 33): #pause for 3 sec
-            msg.drive.steering_angle = -0.84 
-            msg.drive.speed = 0.0  
-            msg.drive.acceleration = 0.0
-            print("Turn left")"""
         else:
             self.i = 0
         self.publisher.publish(msg)
