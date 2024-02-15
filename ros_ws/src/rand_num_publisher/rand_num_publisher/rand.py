@@ -23,26 +23,26 @@ class MinimalPublisher(Node):
         msg.header.stamp = self.get_clock().now().to_msg()
         msg.header.frame_id = 'base_link'
         
-        if (self.i < 20): #driving straight for 10 sec 
+        if (self.i < 8): #driving straight for 10 sec 
             msg.drive.steering_angle = 0.0  
-            msg.drive.speed = 1.0  
+            msg.drive.speed = 0.25  
             msg.drive.acceleration = 0.5
             print("Drive Forward")
-        elif (self.i < 26): #pause for 3 sec
+        '''elif (self.i < 26): #pause for 3 sec
             msg.drive.steering_angle = 0.0  
-            msg.drive.speed = 0.0  
+            msg.drive.speed = 0.0
             msg.drive.acceleration = 0.0
-            print("Pause")
-        elif (self.i < 30): #turn for 2 sec
+            print("Pause")'''
+        elif (self.i < 9): #turn for 2 sec
             msg.drive.steering_angle = 0.84  
-            msg.drive.speed = 1.0  
+            msg.drive.speed = 0.1
             msg.drive.acceleration = 0.5
             print("Turn right")
-        elif (self.i < 33): #pause for 3 sec
+        '''elif (self.i < 33): #pause for 3 sec
             msg.drive.steering_angle = -0.84 
             msg.drive.speed = 0.0  
             msg.drive.acceleration = 0.0
-            print("Turn left")
+            print("Turn left")'''
         else:
             self.i = 0
         self.publisher.publish(msg)
