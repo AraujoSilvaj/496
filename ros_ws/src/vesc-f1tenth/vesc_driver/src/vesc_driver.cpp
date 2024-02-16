@@ -102,7 +102,7 @@ VescDriver::VescDriver(const rclcpp::NodeOptions & options)
     "commands/motor/position", rclcpp::QoS{10}, std::bind(&VescDriver::positionCallback, this, _1));
   servo_sub_ = create_subscription<Float64>(
     "commands/servo/position", rclcpp::QoS{10}, std::bind(&VescDriver::servoCallback, this, _1));
-     
+
   // create a 50Hz timer, used for state machine & polling VESC telemetry
   timer_ = create_wall_timer(20ms, std::bind(&VescDriver::timerCallback, this));
 }
@@ -337,9 +337,6 @@ void VescDriver::servoCallback(const Float64::SharedPtr servo)
     auto servo_sensor_msg = Float64();
     servo_sensor_msg.data = servo_clipped;
     servo_sensor_pub_->publish(servo_sensor_msg);
-    
-    RCLCPP_INFO(get_logger(), "Received servo position: %.2f (clipped: %.2f)", servo->data, servo_clipped);
-    
   }
 }
 
