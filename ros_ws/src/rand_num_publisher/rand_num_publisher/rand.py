@@ -24,7 +24,7 @@ class MinimalPublisher(Node):
         msg.header.frame_id = 'base_link'
         
         if (self.i < 30): #driving straight
-            msg.drive.steering_angle = 0.15  
+            msg.drive.steering_angle = 0.0  
             msg.drive.speed = 0.25  
             msg.drive.acceleration = 0.5
             print("Drive Forward")
