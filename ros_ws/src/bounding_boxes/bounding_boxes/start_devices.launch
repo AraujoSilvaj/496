@@ -1,0 +1,6 @@
+<launch>
+    <!-- Launch nodes for each device -->
+    <include file="$(find vesc)/launch/start_vesc_node.launch" />
+    <include file="$(find ATGM336H_NMEA_ROS2)/launch/start_gps_node.launch" />
+    <include file="$(find yostlab_imu)/launch/start_imu_node.launch" />
+</launch>
