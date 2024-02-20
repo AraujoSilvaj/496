@@ -1,20 +1,20 @@
 import rclpy
 from rclpy.node import Node
-from VescState.msg import voltage_input
+from vesc_msgs.msg import VescStateStamped
 
 class VescVoltagePublisher(Node):
 
 	def __init__(self):
 		super().__init__('vesc_voltage_publisher')
 		
-		self.vesc_voltage_publisher = self.create_publisher(VescMsg, 'vesc_voltage', 10)
+		self.vesc_voltage_publisher = self.create_publisher(VescStateStamped, 'vesc_voltage', 10)
 		
 		self.timer = self.create_timer(1.0, self.publish_voltage)
 		
 	def publish_voltage(self):
-		msg = VescMsg()
+		msg = VescStateStamped()
 		
-		msg.voltage_input = 48 # replace with actual voltage
+		msg.state.voltage_input = 48.0 # replace with actual voltage
 		
 		self.vesc_voltage_publisher.publish(msg)
 		print(msg)
