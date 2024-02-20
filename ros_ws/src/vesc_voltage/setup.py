@@ -20,6 +20,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+        	'talker = vesc_voltage.publisher_member_function:main',
         ],
     },
 )
