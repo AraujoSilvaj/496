@@ -12,7 +12,7 @@ class VescVoltagePublisher(Node):
 		self.battery_percentage_publisher = self.create_publisher(Float64,'battery_percentage',10)
 		
 		self.min_voltage = 11.1
-		self.max_voltage = 12.4
+		self.max_voltage = 12.6
 		
 		
 	def vesc_state_callback(self,msg):
