@@ -21,6 +21,7 @@ setup(
     entry_points={
         'console_scripts': [
 		'talker = bounding_boxes.boxes:main',
+		'laser = bounding_boxes.get_box_height:main',
         ],
     },
 )
