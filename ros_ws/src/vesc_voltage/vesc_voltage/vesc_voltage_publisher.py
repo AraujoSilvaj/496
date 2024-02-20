@@ -17,6 +17,7 @@ class VescVoltagePublisher(Node):
 		msg.voltage_input = 48 # replace with actual voltage
 		
 		self.vesc_voltage_publisher.publish(msg)
+		print(msg)
 		
 
 def main(args=None):
@@ -26,5 +27,5 @@ def main(args=None):
 	vesc_voltage_publisher.destroy_node()
 	rclpy.shutdown()
 	
-if __name__ = '__main__':
+if __name__ == '__main__':
 	main()
