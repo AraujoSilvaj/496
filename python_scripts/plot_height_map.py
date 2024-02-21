@@ -53,10 +53,10 @@ print(optimal_C)
 fit_h = np.linspace(min(label_height), max(label_height), 100)
 
 
-predicted_distance = 0.3682 / np.tan(fit_h * 1.02 / 2)
+predicted_distance = 0.184 / np.tan(fit_h * 1.02 / 2)
 
-plt.scatter(label_height, distance, label = 'Data')
-plt.plot(fit_h, predicted_distance, 'r-', label = 'Predicted Values')
+plt.scatter(label_height, distance, label = 'Labels')
+plt.plot(fit_h, predicted_distance, 'r-', label = 'Expected Values')
 
 # Set labels and title
 plt.xlabel('label_height')
