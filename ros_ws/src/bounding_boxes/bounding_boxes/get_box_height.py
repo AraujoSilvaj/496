@@ -97,7 +97,7 @@ def pixel_to_distance(lst):
 		return []
 
 def calculate_distance(h):
-	return (0.18415 / np.tan(h * 1.02 / 2)) / 3.281 # convert feet to meters for SLAM
+	return (0.18415 / np.tan(h * 1.02 / 2)) # in meters for SLAM
 	
 def x_to_rads(lst):
 	x_coords = lst[0::3]
