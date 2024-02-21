@@ -7,8 +7,8 @@ from sensor_msgs.msg import LaserScan
 distance_list = []
 angle_list = []
 
-num_readings = 100  # number of readings in the laser scan, within our field of view
-laser_frequency = 4 # measured in Hz, will need to update if using GPU instead of CPU
+num_readings = 50  # number of readings in the laser scan, within our field of view
+laser_frequency = 1 # measured in Hz, will need to update if using GPU instead of CPU
 
 class BoxSubscriber(Node):
 
@@ -18,7 +18,7 @@ class BoxSubscriber(Node):
 			Float32MultiArray,
 			'boxes',
 			self.listener_callback,
-			10)
+			50)
 		self.publisher = self.create_publisher(LaserScan, 'b_scan', 1)
 		#self.subscription
 	
@@ -96,7 +96,7 @@ def pixel_to_distance(lst):
 		return []
 
 def calculate_distance(h):
-	return (0.6 / np.tan(h * 1.02 / 2)) / 3.281 # convert feet to meters for SLAM
+	return (0.3683 / np.tan(h * 1.02 / 2)) / 3.281 # convert feet to meters for SLAM
 	
 def x_to_rads(lst):
 	x_coords = lst[0::3]
