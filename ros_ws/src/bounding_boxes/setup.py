@@ -1,4 +1,4 @@
-from setuptools import find_packages, setup
+from ssetuptools import find_packages, setup
 
 package_name = 'bounding_boxes'
 
@@ -20,7 +20,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-		'talker = bounding_boxes.boxes:main',
+		'boxes = bounding_boxes.boxes:main',
 		'laser = bounding_boxes.get_box_height:main',
         ],
     },
