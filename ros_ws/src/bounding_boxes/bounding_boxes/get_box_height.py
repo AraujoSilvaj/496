@@ -19,8 +19,14 @@ class BoxSubscriber(Node):
 			'boxes',
 			self.listener_callback,
 			10)
+		self.publisher = self.create_publisher(LaserScan, 'b_scan', 1)
 		#self.subscription
-		
+	
+	
+# range_min,max units -> needs to be meters for SLAM
+# intensities = device specific, discarded for now
+# ranges = measured distances
+	
 	def listener_callback(self, msg):
 		
 		global distance_list, angle_list
@@ -28,61 +34,56 @@ class BoxSubscriber(Node):
 		data = list(msg.data)
 		distances = pixel_to_distance(data)
 		angles = x_to_rads(data)
-		print('distances: ', distances)
-		print('angles: ', angles)
-		
-
-# range_min,max units -> needs to be meters for SLAM
-# intensities = device specific, discarded for now
-# ranges = measured distances
-class LaserScanPublisher(Node):
-	
-	def __init__(self):
-		super().__init__('laser_scan_publisher')
-		self.publisher = self.create_publisher(LaserScan, 'b_scan', 1)
-		timer_period = 0.5 
-		self.timer = self.create_timer(timer_period, self.timer_callback)
-		self.count = 0
-		print('Initialized LaserScan Publisher')
-		
-	def timer_callback(self):
-		print('timer callback')
+		#print('distances: ', distances)
+		#print('angles: ', angles)
 		current_time = self.get_clock().now().to_msg()
-		print('current time: ', current_time)
 		scan = LaserScan()
 		scan.header.stamp = current_time
 		scan.header.frame_id = 'laser_frame'
 		scan.angle_min = -0.681
 		scan.angle_max = 0.681
-		scan.angle_increment = 3.14/num_readings
+		scan.angle_increment = 1.362/num_readings
 		scan.time_increment = (1.0 / laser_frequency) / num_readings
 		scan.range_min = 0.5  # meters
-		scan.range_max = 30.0 # meters
+		scan.range_max = 100.0 # meters
 		
-		scan.ranges = []
-		scan.intensities = [1] * num_readings  # Filling with constant value 1
+		scan.ranges = [scan.range_max] * num_readings
+		scan.intensities = [1.0] * num_readings  # Filling with constant value 1
 		
-		for i in range(0, num_readings):
-			scan.ranges.append(1.0*self.count)		#fake data
+
 			
+		for i in range(len(angles)):
+			angle = angles[i]
+			# Find the corresponding distance for each angle and append to scan.ranges
+			if scan.angle_min <= angle <= scan.angle_max:
+				# Calculate the index corresponding to the angle in scan.ranges
+				index = int((angle - scan.angle_min) / scan.angle_increment)
+				# Ensure the index is within bounds
+				index = min(max(0, index), num_readings - 1)
+				print("Angle: ",angle)
+				print("Distance: ", distances[i])
+				print("Index: ", index)
+				scan.ranges[index] = distances[i]
+				'''
+        			# Use the index to set the corresponding distance
+				if index < len(distances):
+					scan.ranges[index] = distances[i]
+				else:
+					# Set to max range if index is out of bounds
+					scan.ranges[index] = scan.range_max  
+					'''
+
 		self.publisher.publish(scan)
-		print("Laserscan:")
-		print(scan)
+		print("Laserscan: ")
+		print(scan.ranges)
 		
-		self.count +=1
-
-
 def main(args=None):
 	rclpy.init(args=args)
-	
+
 	box_subscriber = BoxSubscriber()
-	laser_scan_publisher = LaserScanPublisher()
-	
 	rclpy.spin(box_subscriber)
-	#rclpy.spin(laser_scan_publisher)
 	
 	box_subscriber.destroy_node()
-	laser_scan_publisher.destroy_node()
 	rclpy.shutdown()	
 
 def pixel_to_distance(lst):
