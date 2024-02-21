@@ -45,9 +45,9 @@ class BoxSubscriber(Node):
 		scan.angle_increment = 1.362/num_readings
 		scan.time_increment = (1.0 / laser_frequency) / num_readings
 		scan.range_min = 0.5  # meters
-		scan.range_max = 100.0 # meters
+		scan.range_max = 20.0 # 100.0 # meters
 		
-		scan.ranges = [scan.range_max] * num_readings
+		scan.ranges = [scan.range_max - 0.1] * num_readings
 		scan.intensities = [1.0] * num_readings  # Filling with constant value 1
 		
 
@@ -60,6 +60,7 @@ class BoxSubscriber(Node):
 				index = int((angle - scan.angle_min) / scan.angle_increment)
 				# Ensure the index is within bounds
 				index = min(max(0, index), num_readings - 1)
+				index = len(scan.ranges) - index
 				print("Angle: ",angle)
 				print("Distance: ", distances[i])
 				print("Index: ", index)
