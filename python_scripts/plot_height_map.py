@@ -5,6 +5,12 @@ from scipy.optimize import minimize
 distance = [5, 7.5, 10, 12.5, 15, 17.5, 20, 25]
 label_height = [0.26968, 0.076669, 0.059404, 0.06270, 0.05573, 0.05794, 0.06218, 0.064353]
 
+# Convert the elements of the list to float
+distance = [float(d) for d in distance]
+
+# Now you can perform the multiplication
+distance_m = [d * 0.348 for d in distance]
+
 
 '''
 # Fit a polynomial of degree 2 (you can adjust the degree as needed)
@@ -55,12 +61,12 @@ fit_h = np.linspace(min(label_height), max(label_height), 100)
 
 predicted_distance = 0.184 / np.tan(fit_h * 1.02 / 2)
 
-plt.scatter(label_height, distance, label = 'Labels')
+plt.scatter(label_height, distance_m, label = 'Labels')
 plt.plot(fit_h, predicted_distance, 'r-', label = 'Expected Values')
 
 # Set labels and title
 plt.xlabel('label_height')
-plt.ylabel('Distance')
+plt.ylabel('Distance (m)')
 plt.title('Curve Fitting')
 plt.legend()
 plt.grid()
