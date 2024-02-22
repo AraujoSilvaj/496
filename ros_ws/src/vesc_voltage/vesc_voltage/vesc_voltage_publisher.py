@@ -22,7 +22,7 @@ class VescVoltagePublisher(Node):
 		self.voltage_publisher.publish(voltage_msg)
 		
 		# calculate battery percentage
-		battery_percentage = ((input_voltage - self.min_voltage) / (self.max_voltage - self.min_voltage) * 100
+		battery_percentage = ((input_voltage - self.min_voltage) / (self.max_voltage - self.min_voltage)) * 100
 		
 		battery_percentage_msg = Float64()
 		battery_percentage_msg.data = battery_percentage
