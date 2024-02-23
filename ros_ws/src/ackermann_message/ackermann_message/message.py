@@ -24,6 +24,11 @@ class AckermannPublisher(Node):
             msg.drive.speed = 0.25
             msg.drive.acceleration = 0.5
             print("Drive Forward")
+        elif (self.i < 60): 
+            msg.drive.steering_angle = 0.0
+            msg.drive.speed = -0.25
+            msg.drive.acceleration = 0.5
+            print("Drive Backwards")
         #elif (self.i < 30): #turning right
             #msg.drive.steering_angle = -0.26 
             #msg.drive.speed = 0.25  
