@@ -1,35 +1,48 @@
-cmake_minimum_required(VERSION 3.8)
-project(imu_cpp)
+cmake_minimum_required(VERSION 2.8.3)
+project(y3space_driver)
 
-if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  add_compile_options(-Wall -Wextra -Wpedantic)
-endif()
+add_compile_options(-std=c++11)
 
-# find dependencies
-find_package(ament_cmake REQUIRED)
-# uncomment the following section in order to fill in
-# further dependencies manually.
-# find_package(<dependency> REQUIRED)
+find_package(catkin REQUIRED COMPONENTS
+             geometry_msgs
+             roscpp
+             rospy
+             sensor_msgs
+             serial
+             std_msgs)
 
-add_executable(imu_cpp src/imu_cpp.cpp)
-target_include_directories(imu_cpp PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-  $<INSTALL_INTERFACE:include>)
-target_compile_features(imu_cpp PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
+find_package(Boost REQUIRED COMPONENTS system)
 
-install(TARGETS imu_cpp
-  DESTINATION lib/${PROJECT_NAME})
+###################
+## catkin Config ##
+###################
 
-if(BUILD_TESTING)
-  find_package(ament_lint_auto REQUIRED)
-  # the following line skips the linter which checks for copyrights
-  # comment the line when a copyright and license is added to all source files
-  set(ament_cmake_copyright_FOUND TRUE)
-  # the following line skips cpplint (only works in a git repo)
-  # comment the line when this package is in a git repo and when
-  # a copyright and license is added to all source files
-  set(ament_cmake_cpplint_FOUND TRUE)
-  ament_lint_auto_find_test_dependencies()
-endif()
+include_directories(include/y3space_driver)
 
-ament_package()
+catkin_package(CATKIN_DEPENDS geometry_msgs
+                              roscpp
+                              rospy
+                              sensor_msgs
+                              serial
+                              std_msgs)
+
+###########
+## Build ##
+###########
+
+include_directories(
+    INCLUDE_DIRS include
+    ${BOOST_INCLUDE_DIRS}
+    ${catkin_INCLUDE_DIRS})
+
+add_library(serial_interface
+            src/y3space_driver/SerialInterface.cpp)
+
+add_executable(y3space_driver
+               src/y3space_driver/Y3SpaceDriver.cpp
+               src/y3space_driver/main.cpp)
+
+target_link_libraries(y3space_driver
+                      serial_interface
+                      ${catkin_LIBRARIES}
+                      ${Boost_LIBRARIES})
