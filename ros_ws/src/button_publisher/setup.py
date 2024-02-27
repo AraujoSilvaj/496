@@ -20,6 +20,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            'button_publisher = button_publisher.button_publisher:main'
         ],
     },
 )
