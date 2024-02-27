@@ -1,0 +1,5 @@
+port: '/dev/ttyIMU'
+baudrate: 115200
+timeout: 60000
+mode: 'relative'  # should be 'relative' or 'absolute'
+frame: 'imu_link'
