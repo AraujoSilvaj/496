@@ -9,7 +9,7 @@ RUN apt-get update && apt install -y \
 
 RUN apt-get update && apt-get install -y  \
 #	nano \
-#	vim \
+	vim \
 #	python3-pandas \
 	python3-opencv  \
 #	python3-matplotlib \
