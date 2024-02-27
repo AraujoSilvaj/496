@@ -1,12 +1,12 @@
 #include <Y3SpaceDriver.h>
-#include "rclpp/rclpp.hpp"
+#include <rclpp/rclpp.hpp>
 
 const std::string Y3SpaceDriver::logger = "[ Y3SpaceDriver ] ";
 const std::string Y3SpaceDriver::MODE_ABSOLUTE = "absolute";
 const std::string Y3SpaceDriver::MODE_RELATIVE = "relative";
 
-Y3SpaceDriver::Y3SpaceDriver(ros::NodeHandle& nh,
-                             ros::NodeHandle& pnh,
+Y3SpaceDriver::Y3SpaceDriver(rclcpp::NodeOptions& nh,
+                             rclcpp::NodeOptions& pnh,
                              std::string port,
                              int baudrate,
                              int timeout,
@@ -90,7 +90,7 @@ void Y3SpaceDriver::startGyroCalibration(void)
     ROS_INFO_STREAM(this->logger << "Starting Auto Gyro Calibration...");
     this->serialWriteString(BEGIN_GYRO_AUTO_CALIB);
   
-    ros::Duration(5.0).sleep();
+    rclcpp::Duration(5.0).sleep();
     ROS_INFO_STREAM(this->logger << "Proceeding");
 }
 
@@ -194,7 +194,7 @@ void Y3SpaceDriver::run()
   
     rclcpp::Rate rate(10);
     int line = 0;
-    while(ros::ok())
+    while(rclcpp::ok())
     {
         while(this->available() > 0)
         {
@@ -245,6 +245,6 @@ void Y3SpaceDriver::run()
 
         // Throttle ROS at fixed Rate
         rate.sleep();
-        ros::spinOnce();
+        rclcpp::spinOnce();
     }
 }

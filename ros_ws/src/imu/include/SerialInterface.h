@@ -2,7 +2,8 @@
 #define _Y3Space_SERIAL_INTERFACE_H
 
 #include <malloc.h>
-#include <ros/ros.h>
+//#include <ros/ros.h>
+#include <rclpp/rclpp.h>
 #include <serial/serial.h>
 
 using namespace serial;

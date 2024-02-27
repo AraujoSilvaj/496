@@ -2,7 +2,7 @@
 #define _Y3SPACE_DRIVER_H
 
 //#include <ros/ros.h>
-#include <rclcpp>
+#include <rclcpp/rclpp.h>
 #include <sensor_msgs/Imu.h>
 #include <std_msgs/Float64.h>
 #include <SerialInterface.h>
@@ -15,7 +15,7 @@ public:
     //!
     //! Constructor
     //!
-    Y3SpaceDriver(ros::NodeHandle& nh, ros::NodeHandle& pnh, std::string port, int baudrate, int timeout, std::string mode, std::string frame);
+    Y3SpaceDriver(rclcpp::NodeOptions& nh, rclcpp::NodeOptions& pnh, std::string port, int baudrate, int timeout, std::string mode, std::string frame);
     //!
     //! Destructor
     //!
@@ -60,10 +60,10 @@ public:
 
 private:
     // ROS Member Variables
-    ros::NodeHandle m_nh;     ///< Nodehandle for the driver node
-    ros::NodeHandle m_pnh;    ///< Private Nodehandle for use with Serial Interface
-    ros::Publisher m_imuPub;  ///< Publisher for IMU messages
-    ros::Publisher m_tempPub; ///< Publisher for temperature messages
+    rclcpp::NodeOptions m_nh;     ///< Nodehandle for the driver node
+    rclcpp::NodeOptions m_pnh;    ///< Private Nodehandle for use with Serial Interface
+    rclcpp::Publisher m_imuPub;  ///< Publisher for IMU messages
+    rclcpp::Publisher m_tempPub; ///< Publisher for temperature messages
     std::string m_mode;       ///< String indicating the desired driver mode
     std::string m_frame;      ///< The frame ID to broadcast to tf
     static const std::string logger; ///< Logger tag
