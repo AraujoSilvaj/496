@@ -10,7 +10,7 @@ class AckermannPublisher(Node):
     def __init__(self):
         super().__init__('minimal_publisher')
         self.publisher = self.create_publisher(AckermannDriveStamped, 'ackermann_cmd', 10)
-        timer_period = 0.5 # seconds
+        timer_period = 0.25 # seconds
         self.timer = self.create_timer(timer_period, self.timer_callback)
         self.i = 0
     
@@ -19,16 +19,16 @@ class AckermannPublisher(Node):
         msg.header.stamp = self.get_clock().now().to_msg()
         msg.header.frame_id = 'base_link'
         
-        if (self.i < 2): #driving straight
+        if (self.i < 9): #driving straight
             msg.drive.steering_angle = 0.0
-            msg.drive.speed = 1.0
+            msg.drive.speed = 3.0
+            msg.drive.acceleration = 0.1
+            print("Drive Forward 6.75 meter (22 ft)")
+        elif (self.i < 15): 
+            msg.drive.steering_angle = 0.164
+            msg.drive.speed = 3.0
             msg.drive.acceleration = 0.5
-            print("Drive Forward 1 meter")
-        #elif (self.i < 60): 
-            #msg.drive.steering_angle = 0.0
-            #msg.drive.speed = -0.25
-            #msg.drive.acceleration = 0.5
-            #print("Drive Backwards")
+            print("Turn Left")
         #elif (self.i < 30): #turning right
             #msg.drive.steering_angle = -0.26 
             #msg.drive.speed = 0.25  
