@@ -9,7 +9,7 @@ RUN apt-get update && apt install -y \
 
 RUN apt-get update && apt-get install -y  \
 #	nano \
-#	vim \
+	vim \
 #	python3-pandas \
 	python3-opencv  \
 #	python3-matplotlib \
@@ -22,6 +22,7 @@ RUN apt-get update && apt-get install -y \
 	ros-humble-serial-driver \
 	ros-humble-ackermann-msgs \
 	ros-humble-nmea-msgs \
+	ros-humble-slam-toolbox \
 	&& rm -rf /var/lib/apt/lists/*
 
 RUN pip3 install --upgrade TensorFlow pyserial

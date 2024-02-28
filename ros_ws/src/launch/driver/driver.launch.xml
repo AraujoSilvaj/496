@@ -1,0 +1,5 @@
+<launch>
+    <node pkg="vesc_driver" exec="vesc_driver_node.launch.py" name="driver"/>
+    <node pkg="vesc_ackermann" exec="ackermann_to_vesc_node.launch.xml" name="ackermann"/>
+    <node pkg="ackermann_message" exec="message.py" name="msg"/>
+</launch>
