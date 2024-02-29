@@ -1,13 +1,10 @@
 <launch>
     <!-- Launch node for the GPS -->
-    <node pkg="atgm336h5n3x" type="gps_node" name="gps_node" output="screen">
-    </node>
+    <node pkg="atgm336h5n3x" type="gps_node" name="gps_node" output="screen"/>
 
-    <!-- IMU node -->
-    <node pkg="imu_cpp" name="imu_cpp" type="imu_cpp" output="screen">
-    </node>
+<!-- IMU node -->
+    <node pkg="imu_cpp" name="imu_cpp" type="imu_cpp" output="screen"/>
 
     <!-- VESC driver node -->
-    <node pkg="vesc_driver" type="vesc_driver" name="vesc_driver_node" output="screen">
-    </node>
+    <node pkg="vesc_driver" type="vesc_driver" name="vesc_driver_node" output="screen"/>
 </launch> 
