@@ -6,5 +6,7 @@
     <node pkg="imu_cpp" exec="imu_cpp" name="imu_cpp" output="screen"/> -->
 
     <!-- VESC driver node -->
-    <node pkg="vesc_driver" exec="vesc_driver_node" name="vesc_driver" output="screen"/>
+    <node pkg="vesc_driver" exec="vesc_driver_node" name="vesc_driver" output="screen">
+    <param name="port" value="/dev/ttyVESC" />
+    </node>
 </launch> 
