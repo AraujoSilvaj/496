@@ -1,6 +1,6 @@
 <launch>
     <!-- Launch node for the GPS -->
-    <node pkg="atgm336h5n3x" exec="gps_node" name="gps_node" output="screen"/>
+    <node pkg="atgm336h5n3x" exec="nmea_node" name="gps_node" output="screen"/>
 
 <!-- IMU node -->
     <node pkg="imu_cpp" exec="imu_cpp" name="imu_cpp" output="screen"/>
