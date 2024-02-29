@@ -5,18 +5,9 @@
 
     <!-- IMU node -->
     <node pkg="imu_cpp" name="imu_cpp" type="imu_cpp" output="screen">
-        <rosparam command="load" file="$(find imu_cpp)/config/imu_cpp.yaml" />
     </node>
 
     <!-- VESC driver node -->
-    <arg name="node_name" default="vesc_driver_node" />
-    <arg name="debug" default="false" />
-    <arg if="$(arg debug)" name="launch_prefix" value="xterm -e gdb --args" />
-    <arg unless="$(arg debug)" name="launch_prefix" value="" />
-    <arg name="port" default="/dev/ttyVESC" />
-
-    <node pkg="vesc_driver" type="vesc_driver_node" name="$(arg node_name)"
-        output="screen" launch-prefix="$(arg launch_prefix)">
-        <param name="port" value="$(arg port)" />
+    <node pkg="vesc_driver" type="vesc_driver" name="vesc_driver_node" output="screen">
     </node>
-</launch>
+</launch> 
