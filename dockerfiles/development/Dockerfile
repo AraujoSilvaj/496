@@ -23,6 +23,7 @@ RUN apt-get update && apt-get install -y \
 	ros-humble-ackermann-msgs \
 	ros-humble-nmea-msgs \
 	ros-humble-slam-toolbox \
+	ros-humble-robot-localization \
 	&& rm -rf /var/lib/apt/lists/*
 
 RUN pip3 install --upgrade TensorFlow pyserial
