@@ -19,9 +19,15 @@ class AckermannPublisher(Node):
         msg.header.stamp = self.get_clock().now().to_msg()
         msg.header.frame_id = 'base_link'
         
+        ### TODO
+        ## ADD STARTUP 'WIGGLE'
+        ## RECALIBRATE SERVO OFFSET FOR NEW SERVO
+        ## RECALIBRATE SERVO MIN MAX FOR FULL RANGE OF MOTION
+        
+        
         if (self.i < 9): # short driving straight 
             msg.drive.steering_angle = 0.0
-            msg.drive.speed = 3.0
+            msg.drive.speed = 1.0
             msg.drive.acceleration = 0.1
             print("Drive Forward 6.75 meter (22 ft)")
         elif (self.i < 15): #turning left
