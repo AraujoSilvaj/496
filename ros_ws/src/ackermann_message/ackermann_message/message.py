@@ -20,16 +20,36 @@ class AckermannPublisher(Node):
         msg.header.frame_id = 'base_link'
         
         ### TODO
-        ## ADD STARTUP 'WIGGLE'
         ## RECALIBRATE SERVO OFFSET FOR NEW SERVO
         ## RECALIBRATE SERVO MIN MAX FOR FULL RANGE OF MOTION
         
-        
-        if (self.i < 9): # short driving straight 
+        ## WIGGLE
+        if (2 < self.i < 6): # short driving straight 
             msg.drive.steering_angle = 0.0
-            msg.drive.speed = 1.0
+            msg.drive.speed = 0.5
+            msg.drive.acceleration = 0.5
+            print("WIGGLE")
+        elif (8 < self.i < 12): # short driving back
+            msg.drive.steering_angle = 0.0
+            msg.drive.speed = -0.5
+            msg.drive.acceleration = 0.5
+            print("WIGGLE")
+        elif (12 < self.i < 17): # turn left (dont move)
+            msg.drive.steering_angle = 0.2
+            msg.drive.speed = 0.0
+            msg.drive.acceleration = 0.5
+            print("WIGGLE")
+        elif (17 < self.i < 22): # turn right (dont move)
+            msg.drive.steering_angle = -0.2
+            msg.drive.speed = 0.0
+            msg.drive.acceleration = 0.5
+            print("WIGGLE")
+        elif (22 < self.i < 32): # DRIVE STRAIGHT
+            msg.drive.steering_angle = 0.0
+            msg.drive.speed = 3.0
             msg.drive.acceleration = 0.1
-            print("Drive Forward 6.75 meter (22 ft)")
+            print("Drive Forward 7.5 meters (24.6 ft)")
+            """
         elif (self.i < 15): #turning left
             msg.drive.steering_angle = 0.164
             msg.drive.speed = 3.0
@@ -70,6 +90,7 @@ class AckermannPublisher(Node):
             msg.drive.speed = 3.0
             msg.drive.acceleration = 0.1
             print("Drive Forward 3 meter (10 ft)")
+            """
         
         
         self.publisher.publish(msg)
