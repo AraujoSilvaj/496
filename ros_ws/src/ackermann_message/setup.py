@@ -20,7 +20,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'talker = ackermann_message.message:main',
+            'message = ackermann_message.message:main',
         ],
     },
 )
