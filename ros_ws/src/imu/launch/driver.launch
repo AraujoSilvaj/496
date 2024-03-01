@@ -1,8 +1,0 @@
-<launch>
-    <node pkg="imu_cpp"
-    	  name="imu_cpp"
-    	  type="imu_cpp"
-    	  output="screen">
-    	<rosparam command="load" file="$(find imu_cpp)/config/imu_cpp.yaml" />
-   	</node>
-</launch>
