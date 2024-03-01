@@ -44,53 +44,54 @@ class AckermannPublisher(Node):
             msg.drive.speed = 0.0
             msg.drive.acceleration = 0.5
             print("WIGGLE")
-        elif (22 < self.i < 32): # DRIVE STRAIGHT
+            
+        ## Drive Course
+        elif (22 < self.i < 31): # DRIVE STRAIGHT
             msg.drive.steering_angle = 0.0
             msg.drive.speed = 3.0
             msg.drive.acceleration = 0.1
-            print("Drive Forward 7.5 meters (24.6 ft)")
-            """
-        elif (self.i < 15): #turning left
+            print("Drive Forward 6.75 meters (22 ft)")
+        elif (31 < self.i < 37): #turning left
             msg.drive.steering_angle = 0.164
             msg.drive.speed = 3.0
             msg.drive.acceleration = 0.5
             print("Turn Left")
-        elif (self.i < 35): #long drive straight
+        elif (37 < self.i < 57): #long drive straight
             msg.drive.steering_angle = 0.0
             msg.drive.speed = 3.0  
             msg.drive.acceleration = 0.5
             print("Drive Forward 15m (49.5 ft)")
-        elif (self.i < 41): #turning left
+        elif ( 57 < self.i < 63): #turning left
             msg.drive.steering_angle = 0.164
             msg.drive.speed = 3.0
             msg.drive.acceleration = 0.5
             print("Turn Left")
-        elif (self.i < 56): #med drive straight
+        elif (63 < self.i < 78): #med drive straight
             msg.drive.steering_angle = 0.0
             msg.drive.speed = 3.0  
             msg.drive.acceleration = 0.5
             print("Drive Forward 11.25m (37 ft)")
-        elif (self.i < 62): #turning left
+        elif (78 < self.i < 84): #turning left
             msg.drive.steering_angle = 0.164
             msg.drive.speed = 3.0
             msg.drive.acceleration = 0.5
             print("Turn Left")
-        elif (self.i < 82): #long drive straight
+        elif (84 < self.i < 104): #long drive straight
             msg.drive.steering_angle = 0.0
             msg.drive.speed = 3.0  
             msg.drive.acceleration = 0.5
             print("Drive Forward 15m (49.5 ft)")
-        elif (self.i < 88): #turning left
+        elif (104 < self.i < 110): #turning left
             msg.drive.steering_angle = 0.164
             msg.drive.speed = 3.0
             msg.drive.acceleration = 0.5
             print("Turn Left")
-        elif (self.i < 92): # finish line
+        elif (110 < self.i < 116): # finish line
             msg.drive.steering_angle = 0.0
             msg.drive.speed = 3.0
             msg.drive.acceleration = 0.1
             print("Drive Forward 3 meter (10 ft)")
-            """
+            print("YOU MADE IT TO THE FINISH LINE")
         
         
         self.publisher.publish(msg)
