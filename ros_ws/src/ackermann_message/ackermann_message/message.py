@@ -20,10 +20,15 @@ class AckermannPublisher(Node):
         msg.header.frame_id = 'base_link'
         
         ### TODO
-        ## RECALIBRATE SERVO OFFSET FOR NEW SERVO
         ## RECALIBRATE SERVO MIN MAX FOR FULL RANGE OF MOTION
         
         ## WIGGLE
+        if (self.i < 4): # driving 1 meter for test
+            msg.drive.steering_angle = 0.0
+            msg.drive.speed = 2.0
+            msg.drive.acceleration = 1.0
+            print("TEST: DRIVE FORWARD 2 METERS")
+        """
         if (2 < self.i < 6): # short driving straight 
             msg.drive.steering_angle = 0.0
             msg.drive.speed = 0.5
@@ -92,7 +97,7 @@ class AckermannPublisher(Node):
             msg.drive.acceleration = 0.1
             print("Drive Forward 3 meter (10 ft)")
             print("YOU MADE IT TO THE FINISH LINE")
-        
+        """
         
         self.publisher.publish(msg)
         #self.get_logger().info('Publishing Ackermann Drive Command: "%s"' % msg)
