@@ -3,6 +3,7 @@ RUN apt update
 RUN apt install -y apt-utils 
 RUN apt install -y python3-pip
 RUN pip3 install --upgrade TensorFlow
+RUN pip3 install Jetson.GPIO
 RUN apt-get install -y ros-humble-demo-nodes-cpp
 RUN apt-get install -y nano
 RUN apt install vim

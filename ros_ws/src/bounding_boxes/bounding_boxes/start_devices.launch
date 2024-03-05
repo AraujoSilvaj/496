@@ -1,12 +1,24 @@
 <launch>
-    <!-- Launch node for the GPS -->
-    <node pkg="atgm336h5n3x" exec="nmea_node" name="gps_node" output="screen"/>
+    <!-- Launch node for the GPS
+    <node pkg="atgm336h5n3x" exec="nmea_node" name="gps_node" output="screen"/> -->
 
-<!-- IMU node
+    <!-- IMU node
     <node pkg="y3space_driver" exec="Y3SpaceDriver" name="imu" output="screen"/> -->
 
     <!-- VESC driver node -->
     <node pkg="vesc_driver" exec="vesc_driver_node" name="vesc_driver" output="screen">
     <param name="port" value="/dev/ttyVESC" />
+    <!-- <param name="brake_max" value="200000.0"/>
+    <param name="brake_min" value="-20000.0"/>
+    <param name="current_max" value="40.0"/>
+    <param name="current_min" value="0.0"/>
+    <param name="duty_cycle_max" value="0.0"/>
+    <param name="duty_cycle_min" value="0.0"/>
+    <param name="position_max" value="0.0"/>
+    <param name="position_min" value="0.0"/>
+    <param name="servo_max" value="0.85"/>
+    <param name="servo_min" value="0.15"/>
+    <param name="speed_max" value="23250.0"/>
+    <param name="speed_min" value="-23250.0"/> -->
     </node>
 </launch> 

@@ -1,0 +1,3 @@
+<launch>
+    <node pkg="y3space_driver" exec="Y3SpaceDriver" name="imu" output="screen"/> 
+</launch>
