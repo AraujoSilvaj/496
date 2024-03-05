@@ -13,5 +13,5 @@
     <param name="servo_min" value="0.15"/>
     <param name="speed_max" value="23250.0"/>
     <param name="speed_min" value="-23250.0"/>
-   	</node>
+   </node>
 </launch>
