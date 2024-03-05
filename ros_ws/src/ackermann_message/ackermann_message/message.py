@@ -28,7 +28,6 @@ class AckermannPublisher(Node):
     
     def timer_callback(self):
         global button
-        print(button_state.data)
         msg = AckermannDriveStamped()
         msg.header.stamp = self.get_clock().now().to_msg()
         msg.header.frame_id = 'base_link'
