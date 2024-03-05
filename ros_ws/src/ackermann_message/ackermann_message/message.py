@@ -72,7 +72,7 @@ class AckermannPublisher(Node):
             msg.drive.acceleration = 0.5
             print("Drive Forward 15m (49.5 ft)")
         elif ( 57 <= self.i < 63): #turning left
-            msg.drive.steering_angle = 0.164
+            msg.drive.steering_angle = 0.175
             msg.drive.speed = 3.0
             msg.drive.acceleration = 0.5
             print("Turn Left")
@@ -82,7 +82,7 @@ class AckermannPublisher(Node):
             msg.drive.acceleration = 0.5
             print("Drive Forward 11.25m (37 ft)")
         elif (78 <= self.i < 84): #turning left
-            msg.drive.steering_angle = 0.164
+            msg.drive.steering_angle = 0.175
             msg.drive.speed = 3.0
             msg.drive.acceleration = 0.5
             print("Turn Left")
@@ -92,7 +92,7 @@ class AckermannPublisher(Node):
             msg.drive.acceleration = 0.5
             print("Drive Forward 15m (49.5 ft)")
         elif (104 <= self.i < 110): #turning left
-            msg.drive.steering_angle = 0.164
+            msg.drive.steering_angle = 0.175
             msg.drive.speed = 3.0
             msg.drive.acceleration = 0.5
             print("Turn Left")
@@ -102,7 +102,7 @@ class AckermannPublisher(Node):
             msg.drive.acceleration = 0.1
             print("Drive Forward 3 meter (10 ft)")
             print("YOU MADE IT TO THE FINISH LINE")
-        """
+        
         self.publisher.publish(msg)
         #self.get_logger().info('Publishing Ackermann Drive Command: "%s"' % msg)
         self.i += 1
