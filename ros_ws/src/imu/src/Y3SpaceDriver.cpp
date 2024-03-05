@@ -245,6 +245,6 @@ void Y3SpaceDriver::run()
 
         // Throttle ROS at fixed Rate
         rate.sleep();
-        rclcpp::spinOnce();
+        rclcpp::spin_some(node);
     }
 }

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import rospy
+import rclpy
 
 from tf.transformations import euler_from_quaternion
 from sensor_msgs.msg import Imu
