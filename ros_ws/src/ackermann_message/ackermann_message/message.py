@@ -6,28 +6,25 @@ from std_msgs.msg import String
 from std_msgs.msg import Bool
 from ackermann_msgs.msg import AckermannDriveStamped
 
-button = False
+#button = True
 
 class AckermannPublisher(Node):
     def __init__(self):
         super().__init__('minimal_publisher')
         self.publisher = self.create_publisher(AckermannDriveStamped, 'ackermann_cmd', 10)
-        self.subscription = self.create_subscription(Bool, 'button_state', self.listener_callback, 10)
+        #self.subscription = self.create_subscription(Bool, 'button_state', self.listener_callback, 10)
         timer_period = 0.25 # seconds
         self.timer = self.create_timer(timer_period, self.timer_callback)
         self.i = 0
     
     def listener_callback(self, button_state):
-        global button
-        if button_state.data:
-            button = True
-        else:
+        #global button
+        if  not button_state.data:
             self.i = 0
-            button = False
-            return
-    
+        #return
+
     def timer_callback(self):
-        global button
+        #global button
         msg = AckermannDriveStamped()
         msg.header.stamp = self.get_clock().now().to_msg()
         msg.header.frame_id = 'base_link'
@@ -35,8 +32,14 @@ class AckermannPublisher(Node):
         ### TODO
         ## RECALIBRATE SERVO MIN MAX FOR FULL RANGE OF MOTION
         
+        if (self.i == 0):
+            msg.drive.steering_angle = 0.0
+            msg.drive.speed = 0.0
+            msg.drive.acceleration = 0.0
+            print("STOP")
+        
         ## WIGGLE
-        if (2 < self.i < 6): # short driving straight 
+        elif (2 < self.i < 6): # short driving straight 
             msg.drive.steering_angle = 0.0
             msg.drive.speed = 0.5
             msg.drive.acceleration = 0.5
@@ -73,42 +76,42 @@ class AckermannPublisher(Node):
             print("Drive Forward 6.75 meters (22 ft)")
             
         elif (31 <= self.i < 37): #turning left
-            msg.drive.steering_angle = 0.175
+            msg.drive.steering_angle = 0.1725
             msg.drive.speed = 3.0
             msg.drive.acceleration = 0.5
             print("Turn Left")
             
-        elif (37 <= self.i < 57): #long drive straight
+        elif (37 <= self.i < 58): #long drive straight
             msg.drive.steering_angle = 0.0
             msg.drive.speed = 3.0  
             msg.drive.acceleration = 0.5
             print("Drive Forward 15m (49.5 ft)")
-        elif ( 57 <= self.i < 63): #turning left
+        elif ( 58 <= self.i < 64): #turning left
             msg.drive.steering_angle = 0.175
             msg.drive.speed = 3.0
             msg.drive.acceleration = 0.5
             print("Turn Left")
-        elif (63 <= self.i < 78): #med drive straight
+        elif (64 <= self.i < 79): #med drive straight
             msg.drive.steering_angle = 0.0
             msg.drive.speed = 3.0  
             msg.drive.acceleration = 0.5
             print("Drive Forward 11.25m (37 ft)")
-        elif (78 <= self.i < 84): #turning left
+        elif (79 <= self.i < 85): #turning left
             msg.drive.steering_angle = 0.175
             msg.drive.speed = 3.0
             msg.drive.acceleration = 0.5
             print("Turn Left")
-        elif (84 <= self.i < 104): #long drive straight
+        elif (85 <= self.i < 106): #long drive straight
             msg.drive.steering_angle = 0.0
             msg.drive.speed = 3.0  
             msg.drive.acceleration = 0.5
             print("Drive Forward 15m (49.5 ft)")
-        elif (104 <= self.i < 110): #turning left
-            msg.drive.steering_angle = 0.175
+        elif (106 <= self.i < 113): #turning left
+            msg.drive.steering_angle = 0.1705
             msg.drive.speed = 3.0
             msg.drive.acceleration = 0.5
             print("Turn Left")
-        elif (110 <= self.i < 116): # finish line
+        elif (113 <= self.i < 120): # finish line
             msg.drive.steering_angle = 0.0
             msg.drive.speed = 3.0
             msg.drive.acceleration = 0.1
