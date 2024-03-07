@@ -1,5 +1,5 @@
 FROM ros:humble-ros-base   
-RUN apt update
+RUN apt update -y
 RUN apt-get update && apt install -y \
 	apt-utils \
 	python3-pip \
