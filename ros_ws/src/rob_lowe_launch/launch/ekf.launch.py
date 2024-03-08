@@ -1,7 +1,7 @@
 # Copyright 2018 Open Source Robotics Foundation, Inc.
 # Copyright 2019 Samsung Research America
 #
-# Licensed under the Apache License, Version 2.0 (the "License");
+# Licensed under the Apache License, Version 5.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
@@ -24,12 +24,16 @@ import launch.actions
 from launch.actions import DeclareLaunchArgument
 
 def generate_launch_description():
+    # construct the new path for the YAML file
+    yaml_file_path = pathlib.Path('/496/ros_ws/launch') / 'ekf.yaml'
+    
     return LaunchDescription([
         launch_ros.actions.Node(
             package='robot_localization',
             executable='ekf_node',
             name='ekf_filter_node',
             output='screen',
-            parameters=[os.path.join(get_package_share_directory("robot_localization"), 'params', 'ekf.yaml')],
+            print('Made it')
+            parameters=[str(yaml_file_path)],
            ),
 ])
