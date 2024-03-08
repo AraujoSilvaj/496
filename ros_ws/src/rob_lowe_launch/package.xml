@@ -16,7 +16,4 @@
     <build_type>ament_python</build_type>
   </export>
 
-  <install_data>
-    <install_data include="launch/*"/>
-  <install_data>
 </package>

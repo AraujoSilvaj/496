@@ -25,7 +25,7 @@ from launch.actions import DeclareLaunchArgument
 
 def generate_launch_description():
     # construct the new path for the YAML file
-    yaml_file_path = pathlib.Path('/496/ros_ws/launch') / 'ekf.yaml'
+    yaml_file_path = pathlib.Path('/496/ros_ws/src/rob_lowe_launch') / 'ekf.yaml'
     
     return LaunchDescription([
         launch_ros.actions.Node(
@@ -33,7 +33,6 @@ def generate_launch_description():
             executable='ekf_node',
             name='ekf_filter_node',
             output='screen',
-            print('Made it')
             parameters=[str(yaml_file_path)],
            ),
 ])
