@@ -11,7 +11,8 @@ RUN apt-get update && apt-get install -y  \
 #	nano \
 	vim \
 #	python3-pandas \
-	python3-opencv  \
+#	python3-opencv  \
+#	python3-opencv-headless  \
 #	python3-matplotlib \
 #	libgl1 \ 
 #	python3-sklearn \
@@ -27,7 +28,7 @@ RUN apt-get update && apt-get install -y \
 	libqt5serialport5-dev \
 	&& rm -rf /var/lib/apt/lists/*
 
-RUN pip3 install --upgrade TensorFlow pyserial
+RUN pip3 install TensorFlow pyserial opencv-python-headless
 
 CMD ["bash"]
 
