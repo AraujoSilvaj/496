@@ -3,7 +3,7 @@ from rclpy.node import Node
 from nav_msgs.msg import Odometry
 from std_msgs.msg import Float32MultiArray
 from ackermann_msgs.msg import AckermannDriveStamped
-from geometry_msgs.msg import Pose
+from geometry_msgs.msg import Pose, Quaternion, Point
 import math
 
 class odomNavigation(Node):
@@ -57,10 +57,24 @@ class odomNavigation(Node):
         return math.sqrt(dx**2 + dy**2)
         
     def calculate_steering_angle(self, position, orientation, waypoint):
-        # Calculate the desired steering angle to reach the next waypoint
-        # You can use the position, orientation, and waypoint data to calculate the desired steering angle
-        # This is just a placeholder, you'll need to implement your own steering angle calculation
-        return 0.0
+        #Note that this approach assumes that the orientation quaternion is in the form (x, y, z, w), where w is the scalar part, and (x, y, z) is the vector part
+        
+        # calculate the vector from the current position to the waypoint
+        waypoint_vector = [waypoint.position.x - position.x, waypoint.position.y - position.y]
+        
+        # calculate the angle between the robot's heading and the waypoint vector
+        robot_heading = 2 * math.atan2(orientation.z, orientation.w)
+        waypoint_angle = math.atan2(waypoint_vector[1], waypoint_vector[0])
+        angle_diff = waypoint_angle - robot_heading
+        
+        # normalize the angle difference to [-pi,pi]
+        angle_diff = (angle_diff + math.pi) % (2 * math.pi) - math.pi
+        
+        # calculate the desired steering angle using the pure pursuit algorithm
+        lookahead_distance = 1.0 # adjust this value as needed
+        desired_steering_angle = math.atan2(2.0 * math.sin(angle_diff) * lookahead_distance, math.sqrt(1 + (2 * math.cos(angle_diff) * lookahead_distance)**2))
+        
+        return desired_steering_angle
         
     def publish_ackermann_cmd(self, velocity, acceleration, steering_angle):
         #Create an AckermannDriveStamped message
