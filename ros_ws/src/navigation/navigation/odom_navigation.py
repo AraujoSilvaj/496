@@ -1,16 +1,10 @@
 import rclpy
 from rclpy.node import Node
-
 from nav_msgs.msg import Odometry
 from std_msgs.msg import Float32MultiArray
 from ackermann_msgs.msg import AckermannDriveStamped
 from geometry_msgs.msg import Pose
 import math
-
-alpha = 0.5
-beta = 1.0 - alpha
-
-
 
 class odomNavigation(Node):
 
@@ -18,19 +12,36 @@ class odomNavigation(Node):
         super().__init__('odom_navigation')
         self.subscriber = self.create_subscription(Odometry, 'odometry/filtered', self.pose_callback, 10)
         self.publisher = self.create_publisher(AckermannDriveStamped, 'ackermann_cmd', 10)
-        self.waypoints = self.load_waypoints('path.txt')
+        self.waypoints = self.load_waypoints('/496/ros_ws/src/navigation/4_corners_waypoints.txt')
         self.waypoint_index = 0
 
     def pose_callback(self, msg):
+        min_dist = 0.5 # minimum distance to waypoint in meters
+        desired_velocity = 1.0
+        acceleration = 1.0
+        
         position = msg.pose.pose.position
         orientation = msg.pose.pose.orientation
         linear_velocity = msg.twist.twist.linear
         angular_velocity = msg.twist.twist.angular
         
-        print("Current Pose:", position,orientation,linear_velocity,angular_velocity)
+        #print("Current Pose:", position,orientation,linear_velocity,angular_velocity)
         
+        # Compare current pose with the next waypoint
         next_waypoint = self.waypoints[self.waypoint_index]
         distance_to_waypoint = self.calculate_distance(position, next_waypoint.position)
+        
+        if distance_to_waypoint < min_dist:
+            self.waypoint_index += 1
+            if self.waypoint_index == len(self.waypoints):
+                #reached final waypoint (start line), stop the robot
+                self.publish_ackermann_cmd(0.0,0.0,0.0)
+                return
+                
+        desired_steering_angle = self.calculate_steering_angle(position, orientation, next_waypoint)
+        
+        self.publish_ackermann_cmd(desired_velocity, acceleration, desired_steering_angle)
+        
         
     def load_waypoints(self, file_path):
         waypoints = []
