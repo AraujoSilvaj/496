@@ -14,6 +14,20 @@ class odomNavigation(Node):
         self.publisher = self.create_publisher(AckermannDriveStamped, 'ackermann_cmd', 10)
         self.waypoints = self.load_waypoints('/496/ros_ws/src/navigation/4_corners_waypoints.txt')
         self.waypoint_index = 0
+        
+        # Create a timer to publish an initial Ackermann command
+        self.timer = self.create_timer(1.0, self.publish_initial_cmd)
+        
+    def publish_initial_cmd(self):
+        # Publish an initial Ackermann command to start the robot's movement
+        initial_cmd = AckermannDriveStamped()
+        initial_cmd.drive.speed = 1.0  # Set the initial speed
+        initial_cmd.drive.acceleration = 0.1
+        initial_cmd.drive.steering_angle = 0.0
+        self.publisher.publish(initial_cmd)
+
+        # Stop the timer after publishing the initial command
+        self.timer.cancel()    
 
     def pose_callback(self, msg):
         min_dist = 0.5 # minimum distance to waypoint in meters
@@ -25,7 +39,7 @@ class odomNavigation(Node):
         linear_velocity = msg.twist.twist.linear
         angular_velocity = msg.twist.twist.angular
         
-        #print("Current Pose:", position,orientation,linear_velocity,angular_velocity)
+        print("Current Pose:", position,orientation,linear_velocity,angular_velocity)
         
         # Compare current pose with the next waypoint
         next_waypoint = self.waypoints[self.waypoint_index]
@@ -47,8 +61,10 @@ class odomNavigation(Node):
         waypoints = []
         with open(file_path, 'r') as file:
             for line in file:
-                x, y, theta = map(float, line.strip().split())
-                waypoints.append(Pose(position=Point(x,y,0), orientation=Quaternion(*quaternion_from_euler(0, 0, theta))))
+                values = [float(value) for value in line.strip().split(',') if value]
+                x, y, z, w = values
+                quat = Quaternion(x=0.0, y=0.0, z=z, w=w)
+                waypoints.append(Pose(position=Point(x=x, y=y, z=0.0), orientation=quat))
         return waypoints
         
     def calculate_distance(self, position1, position2):
@@ -64,7 +80,7 @@ class odomNavigation(Node):
         
         # calculate the angle between the robot's heading and the waypoint vector
         robot_heading = 2 * math.atan2(orientation.z, orientation.w)
-        waypoint_angle = math.atan2(waypoint_vector[1], waypoint_vector[0])
+        waypoint_angle = math.atan2(waypoint_vector[0], waypoint_vector[1])
         angle_diff = waypoint_angle - robot_heading
         
         # normalize the angle difference to [-pi,pi]
