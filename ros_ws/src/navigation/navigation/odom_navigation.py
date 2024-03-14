@@ -12,7 +12,7 @@ class odomNavigation(Node):
         super().__init__('odom_navigation')
         self.subscriber = self.create_subscription(Odometry, 'odometry/filtered', self.pose_callback, 10)
         self.publisher = self.create_publisher(AckermannDriveStamped, 'ackermann_cmd', 10)
-        self.waypoints = self.load_waypoints('/496/ros_ws/src/navigation/4_corners_waypoints.txt')
+        self.waypoints = self.load_waypoints('/496/ros_ws/src/navigation/4_corners_waypoints_indoors.txt')
         self.waypoint_index = 0
         
         # Create a timer to publish an initial Ackermann command
@@ -31,15 +31,15 @@ class odomNavigation(Node):
 
     def pose_callback(self, msg):
         min_dist = 0.5 # minimum distance to waypoint in meters
-        desired_velocity = 1.0
         acceleration = 1.0
+        desired_velocity = 0.5
         
         position = msg.pose.pose.position
         orientation = msg.pose.pose.orientation
         linear_velocity = msg.twist.twist.linear
         angular_velocity = msg.twist.twist.angular
         
-        print("Current Pose:", position,orientation,linear_velocity,angular_velocity)
+        #print("Current Pose:", position,orientation,linear_velocity,angular_velocity)
         
         # Compare current pose with the next waypoint
         next_waypoint = self.waypoints[self.waypoint_index]
@@ -73,22 +73,35 @@ class odomNavigation(Node):
         return math.sqrt(dx**2 + dy**2)
         
     def calculate_steering_angle(self, position, orientation, waypoint):
-        #Note that this approach assumes that the orientation quaternion is in the form (x, y, z, w), where w is the scalar part, and (x, y, z) is the vector part
+        
+        max_steering_angle = 0.175 # Maximum steering angle in radians
         
         # calculate the vector from the current position to the waypoint
         waypoint_vector = [waypoint.position.x - position.x, waypoint.position.y - position.y]
         
         # calculate the angle between the robot's heading and the waypoint vector
         robot_heading = 2 * math.atan2(orientation.z, orientation.w)
-        waypoint_angle = math.atan2(waypoint_vector[0], waypoint_vector[1])
+        waypoint_angle = math.atan2(waypoint_vector[1], waypoint_vector[0])
         angle_diff = waypoint_angle - robot_heading
+        
+        print("waypoint vector: ", waypoint_vector)
+        print("robot heading: ", robot_heading)
+        print("angle dif: ", angle_diff)
         
         # normalize the angle difference to [-pi,pi]
         angle_diff = (angle_diff + math.pi) % (2 * math.pi) - math.pi
         
-        # calculate the desired steering angle using the pure pursuit algorithm
-        lookahead_distance = 1.0 # adjust this value as needed
-        desired_steering_angle = math.atan2(2.0 * math.sin(angle_diff) * lookahead_distance, math.sqrt(1 + (2 * math.cos(angle_diff) * lookahead_distance)**2))
+        ## calculate the desired steering angle using the pure pursuit algorithm
+        #lookahead_distance = 5.0 # adjust this value as needed
+        #desired_steering_angle = math.atan2(2.0 * math.sin(angle_diff) * lookahead_distance, math.sqrt(1 + (2 * math.cos(angle_diff) * lookahead_distance)**2))
+        
+        # trying a simpler approach to find steering angle
+        # go to goal approach
+        desired_steering_angle = max(-max_steering_angle, min(max_steering_angle, angle_diff))
+        
+        print("normalized angle dif: ", angle_diff)
+        print("Desired Steering Angle: ", desired_steering_angle)
+        print()
         
         return desired_steering_angle
         
