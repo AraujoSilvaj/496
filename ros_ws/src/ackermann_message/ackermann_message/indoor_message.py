@@ -75,43 +75,43 @@ class AckermannPublisher(Node):
             msg.drive.acceleration = 0.1
             print("Drive Forward 6.75 meters (22 ft)")
             
-        elif (32 <= self.i < 42): #turning left
+        elif (32 <= self.i < 40): #turning left
             msg.drive.steering_angle = 0.1725
             msg.drive.speed = 1.0
             msg.drive.acceleration = 0.5
             print("Turn Left")
             
-        elif (42 <= self.i < 52): #long drive straight
+        elif (40 <= self.i < 50): #long drive straight
             msg.drive.steering_angle = 0.0
             msg.drive.speed = 1.0  
             msg.drive.acceleration = 0.5
             print("Drive Forward 15m (49.5 ft)")
-        elif (52 <= self.i < 62): #turning left
+        elif (50 <= self.i < 58): #turning left
             msg.drive.steering_angle = 0.175
             msg.drive.speed = 1.0
             msg.drive.acceleration = 0.5
             print("Turn Left")
-        elif (62 <= self.i < 72): #med drive straight
+        elif (58 <= self.i < 68): #med drive straight
             msg.drive.steering_angle = 0.0
             msg.drive.speed = 1.0  
             msg.drive.acceleration = 0.5
             print("Drive Forward 11.25m (37 ft)")
-        elif (72 <= self.i < 82): #turning left
+        elif (68 <= self.i < 76): #turning left
             msg.drive.steering_angle = 0.175
             msg.drive.speed = 1.0
             msg.drive.acceleration = 0.5
             print("Turn Left")
-        elif (82 <= self.i < 92): #long drive straight
+        elif (76 <= self.i < 86): #long drive straight
             msg.drive.steering_angle = 0.0
             msg.drive.speed = 1.0  
             msg.drive.acceleration = 0.5
             print("Drive Forward 15m (49.5 ft)")
-        elif (92 <= self.i < 102): #turning left
+        elif (86 <= self.i < 94): #turning left
             msg.drive.steering_angle = 0.1705
             msg.drive.speed = 1.0
             msg.drive.acceleration = 0.5
             print("Turn Left")
-        elif (102 <= self.i < 112): # finish line
+        elif (94 <= self.i < 99): # finish line
             msg.drive.steering_angle = 0.0
             msg.drive.speed = 1.0
             msg.drive.acceleration = 0.1
