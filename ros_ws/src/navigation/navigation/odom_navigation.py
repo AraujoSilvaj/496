@@ -25,6 +25,7 @@ class odomNavigation(Node):
         initial_cmd.drive.acceleration = 0.1
         initial_cmd.drive.steering_angle = 0.0
         self.publisher.publish(initial_cmd)
+        print("published initial movement")
 
         # Stop the timer after publishing the initial command
         self.timer.cancel()    
