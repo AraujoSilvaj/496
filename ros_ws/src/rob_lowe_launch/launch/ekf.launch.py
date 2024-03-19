@@ -25,7 +25,7 @@ from launch.actions import DeclareLaunchArgument
 
 def generate_launch_description():
     # construct the new path for the YAML file
-    yaml_file_path = pathlib.Path('/496/ros_ws/src/rob_lowe_launch') / 'ekf_odom.yaml'
+    yaml_file_path = pathlib.Path('/496/ros_ws/src/rob_lowe_launch') / 'ekf_odom_imu.yaml'
     
     return LaunchDescription([
         launch_ros.actions.Node(
