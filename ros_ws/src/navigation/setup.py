@@ -21,6 +21,7 @@ setup(
     entry_points={
         'console_scripts': [
             'driving = navigation.odom_navigation:main',
+            'waypoints = navigation.waypoints:main',
             
         ],
     },

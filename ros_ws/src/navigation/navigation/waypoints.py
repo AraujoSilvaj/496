@@ -1,16 +1,18 @@
 import rclpy 
 from rclpy.node import Node
 from nav_msgs.msg import Odometry
-from std_msgs.msg import Float32MultiArray
 from std_msgs.msg import Bool
+from geometry_msgs.msg import Pose, Quaternion, Point, PoseStamped
+import math
 
 class Waypoints(Node):
     
     def __init__(self):
         super().__init__('waypoints')
         self.subscriber = self.create_subscription(Odometry, 'odometry/filtered', self.pose_callback, 10)
+        self.waypoint_pub = self.create_publisher(PoseStamped, 'current_waypoint', 10)
         self.waypoints = self.load_waypoints('/496/ros_ws/src/navigation/4_corners_waypoints_indoors.txt')
-        self.subscription = self.create_subscription(Bool, 'button_state', self.button_callback, 10)
+        #self.subscription = self.create_subscription(Bool, 'button_state', self.button_callback, 10)
         self.waypoint_index = 0
     
     def button_callback(self, msg):
@@ -19,7 +21,6 @@ class Waypoints(Node):
         
     def pose_callback(self, msg):
         min_dist = 0.5 # minimum distance to waypoint in meters
-        
         position = msg.pose.pose.position
         orientation = msg.pose.pose.orientation
         linear_velocity = msg.twist.twist.linear
@@ -30,6 +31,13 @@ class Waypoints(Node):
         distance_to_waypoint = self.calculate_distance(position, next_waypoint.position)
         
         print("Waypoint index: ", self.waypoint_index)
+        print("Waypoint: ", next_waypoint)
+        print()
+        
+        waypoint_msg = PoseStamped()
+        waypoint_msg.pose = next_waypoint
+        waypoint_msg.header.stamp = self.get_clock().now().to_msg()  # Add timestamp
+        self.waypoint_pub.publish(waypoint_msg)
         
         if distance_to_waypoint < min_dist:
             self.waypoint_index += 1
