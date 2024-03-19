@@ -1,18 +1,37 @@
-FROM ros:humble-ros-base 
-RUN apt update
-RUN apt install -y apt-utils 
-RUN apt install -y python3-pip
-RUN pip3 install --upgrade TensorFlow
-RUN pip3 install Jetson.GPIO
-RUN apt-get install -y ros-humble-demo-nodes-cpp
-RUN apt-get install -y nano
-RUN apt install vim
-RUN apt install ros-humble-slam-toolbox
-RUN apt-get install -y python3-pandas
-RUN apt-get install -y python3-opencv 
-RUN apt-get install python3-matplotlib
-RUN apt-get install -y libgl1 
-RUN apt-get install -y python3-sklearn
+FROM ros:humble-ros-base   
+RUN apt update -y
+RUN apt-get update && apt install -y \
+	apt-utils \
+	python3-pip \
+	&& rm -rf /var/lib/apt/lists/*
+
+
+
+RUN apt-get update && apt-get install -y  \
+#	nano \
+	vim \
+	python3-pandas \
+	python3-opencv  \
+#	python3-opencv-headless  \
+	python3-matplotlib \
+	libgl1 \ 
+	python3-sklearn \
+	&& rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update && apt-get install -y \
+	ros-humble-demo-nodes-cpp \
+	ros-humble-serial-driver \
+	ros-humble-ackermann-msgs \
+	ros-humble-nmea-msgs \
+	ros-humble-slam-toolbox \
+	ros-humble-robot-localization \
+	libqt5serialport5-dev \
+	&& rm -rf /var/lib/apt/lists/*
+
+RUN pip3 install \
+	TensorFlow pyserial opencv-python-headless \
+	Jetson.GPIO \
+	&& rm -rf /var/lib/apt/lists/*
 
 CMD ["bash"]
 

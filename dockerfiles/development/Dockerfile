@@ -8,7 +8,7 @@ RUN apt-get update && apt install -y \
 
 
 RUN apt-get update && apt-get install -y  \
-#	nano \
+	nano \
 	vim \
 #	python3-pandas \
 #	python3-opencv  \
