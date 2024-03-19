@@ -20,6 +20,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            'driving = navigation.odom_navigation:main',
+            
         ],
     },
 )
