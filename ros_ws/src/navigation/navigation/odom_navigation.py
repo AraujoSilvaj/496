@@ -2,6 +2,7 @@ import rclpy
 from rclpy.node import Node
 from nav_msgs.msg import Odometry
 from std_msgs.msg import Float32MultiArray
+from std_msgs.msg import Bool
 from ackermann_msgs.msg import AckermannDriveStamped
 from geometry_msgs.msg import Pose, Quaternion, Point
 import math
@@ -11,6 +12,7 @@ class odomNavigation(Node):
     def __init__(self):
         super().__init__('odom_navigation')
         self.subscriber = self.create_subscription(Odometry, 'odometry/filtered', self.pose_callback, 10)
+        self.subscription = self.create_subscription(Bool, 'button_state', self.button_callback, 10)
         self.publisher = self.create_publisher(AckermannDriveStamped, 'ackermann_cmd', 10)
         self.waypoints = self.load_waypoints('/496/ros_ws/src/navigation/4_corners_waypoints_indoors.txt')
         self.waypoint_index = 0
@@ -30,10 +32,15 @@ class odomNavigation(Node):
         # Stop the timer after publishing the initial command
         self.timer.cancel()    
 
+    def button_callback(self, msg):
+        if  not button_state.data:
+            self.publish_ackermann_cmd(0.0, 0.0, 0.0)
+        
+        
     def pose_callback(self, msg):
         min_dist = 0.5 # minimum distance to waypoint in meters
         acceleration = 1.0
-        desired_velocity = 0.5
+        desired_velocity = 1.0
         
         position = msg.pose.pose.position
         orientation = msg.pose.pose.orientation
@@ -75,7 +82,7 @@ class odomNavigation(Node):
         
     def calculate_steering_angle(self, position, orientation, waypoint):
         
-        max_steering_angle = 0.175 # Maximum steering angle in radians
+        max_steering_angle = 0.2 # Maximum steering angle in radians
         
         # calculate the vector from the current position to the waypoint
         waypoint_vector = [waypoint.position.x - position.x, waypoint.position.y - position.y]
@@ -85,6 +92,7 @@ class odomNavigation(Node):
         waypoint_angle = math.atan2(waypoint_vector[1], waypoint_vector[0])
         angle_diff = waypoint_angle - robot_heading
         
+        print("Waypoint index: ", self.waypoint_index)
         print("waypoint vector: ", waypoint_vector)
         print("robot heading: ", robot_heading)
         print("angle dif: ", angle_diff)
