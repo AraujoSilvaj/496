@@ -1,6 +1,0 @@
-<launch>
-    <node pkg="vesc_driver" exec="vesc_driver_node" name="driver" output="screen"/>
-    <node pkg="vesc_ackermann" exec="ackermann_to_vesc_node" name="ackermann"  output="screen"/>
-    <node pkg="vesc_ackermann" exec="vesc_to_odom_node" name="odom"  output="screen"/>
-    <node pkg="ackermann_message" exec="message" name="ackermann_msg" output="screen"/>
-</launch>

@@ -1,0 +1,42 @@
+
+<launch>
+    <node pkg="vesc_driver" exec="vesc_driver_node" name="vesc_driver" output="screen">
+    	<param name="port" value="/dev/ttyVESC"/>
+    	<param name="brake_max" value="200000.0"/>
+    	<param name="brake_min" value="-200000.0"/>
+    	<param name="current_max" value="40.0"/>
+    	<param name="curent_min" value="0.0"/>
+    	<param name="duty_cycle_max" value="0.0"/>
+    	<param name="duty_cycle_min" value="0.0"/>
+    	<param name="position_max" value="0.0"/>
+    	<param name="position_min" value="0.0"/>
+    	<param name="servo_max" value="0.95"/>
+    	<param name="servo_min" value="0.05"/>
+    	<param name="speed_max" value="23250.0"/>
+    	<param name="speed_min" value="-23250.0"/>    	
+    </node>
+    
+    <node pkg="vesc_ackermann" exec="ackermann_to_vesc_node" name="ackermann"  output="screen">
+        <param name="speed_to_erpm_gain" value="2400.0" />
+        <param name="speed_to_erpm_offset" value="0.0" />
+        <param name="steering_angle_to_servo_gain" value="-1.2135" />
+        <param name="steering_angle_to_servo_offset" value="0.5" />
+    </node>
+    
+    <node pkg="vesc_ackermann" exec="vesc_to_odom_node" name="odom"  output="screen">
+        <param name="odom_frame" value="odom" />
+        <param name="base_frame" value="base_link" />
+        <param name="speed_to_erpm_gain" value="-2400.0" />
+        <param name="speed_to_erpm_offset" value="0.0" />
+        <param name="use_servo_cmd_to_calc_angular_velocity" value="true" />
+        <param name="steering_angle_to_servo_gain" value="-1.2135" />
+        <param name="steering_angle_to_servo_offset" value="0.5" />
+        <param name="wheelbase" value="0.2" />
+        <param name="publish_tf" value="true" />
+    </node>
+    
+    <node pkg="witmotion_ros" exec="witmotion_ros_node" name="imu" output="screen">
+        
+    </node>
+   
+</launch>    
