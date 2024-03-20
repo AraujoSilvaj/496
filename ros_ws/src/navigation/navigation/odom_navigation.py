@@ -12,6 +12,7 @@ class odomNavigation(Node):
     def __init__(self):
         super().__init__('odom_navigation')
         self.subscriber = self.create_subscription(Odometry, 'odometry/filtered', self.pose_callback, 10)
+        self.stop_sub = self.create_subscription(Bool, 'stop_robot', self.stop_callback, 10)
         #self.subscription = self.create_subscription(Bool, 'button_state', self.button_callback, 10)
         self.publisher = self.create_publisher(AckermannDriveStamped, 'ackermann_cmd', 10)
         self.waypoint_sub = self.create_subscription(PoseStamped, 'current_waypoint', self.waypoint_callback, 10)
@@ -35,6 +36,15 @@ class odomNavigation(Node):
     def button_callback(self, msg):
         if  not button_state.data:
             self.publish_ackermann_cmd(0.0, 0.0, 0.0)
+    
+    def stop_callback(self,msg):
+        if msg.data:
+        stop_cmd = AckermannDriveStamped()
+        stop_cmd.drive.speed = 0.0
+        stop_cmd.drive.acceleration = 0.0
+        stop_cmd.drive.steering_angle = 0.0
+        self.publisher.publish(stop_cmd)
+        print("published stop movement command")
     
     def waypoint_callback(self, msg):
         self.current_waypoint = msg.pose
