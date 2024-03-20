@@ -39,12 +39,12 @@ class odomNavigation(Node):
     
     def stop_callback(self,msg):
         if msg.data:
-        stop_cmd = AckermannDriveStamped()
-        stop_cmd.drive.speed = 0.0
-        stop_cmd.drive.acceleration = 0.0
-        stop_cmd.drive.steering_angle = 0.0
-        self.publisher.publish(stop_cmd)
-        print("published stop movement command")
+            stop_cmd = AckermannDriveStamped()
+            stop_cmd.drive.speed = 0.0
+            stop_cmd.drive.acceleration = 0.0
+            stop_cmd.drive.steering_angle = 0.0
+            self.publisher.publish(stop_cmd)
+            print("published stop movement command")
     
     def waypoint_callback(self, msg):
         self.current_waypoint = msg.pose
