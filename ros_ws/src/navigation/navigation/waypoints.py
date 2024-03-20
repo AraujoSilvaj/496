@@ -20,7 +20,7 @@ class Waypoints(Node):
             self.waypoint_index = 0
         
     def pose_callback(self, msg):
-        min_dist = 0.5 # minimum distance to waypoint in meters
+        min_dist = 0.1 # minimum distance to waypoint in meters
         position = msg.pose.pose.position
         orientation = msg.pose.pose.orientation
         linear_velocity = msg.twist.twist.linear

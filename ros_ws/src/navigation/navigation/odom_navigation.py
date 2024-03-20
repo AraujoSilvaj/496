@@ -61,7 +61,7 @@ class odomNavigation(Node):
      
     def calculate_steering_angle(self, position, orientation, waypoint):
         
-        max_steering_angle = 0.2 # Maximum steering angle in radians
+        max_steering_angle = 0.25 # Maximum steering angle in radians
         
         # calculate the vector from the current position to the waypoint
         waypoint_vector = [waypoint.position.x - position.x, waypoint.position.y - position.y]
