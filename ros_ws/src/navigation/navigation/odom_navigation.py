@@ -50,9 +50,8 @@ class odomNavigation(Node):
         self.current_waypoint = msg.pose
         
     def pose_callback(self, msg):
-        #min_dist = 0.5 # minimum distance to waypoint in meters
         acceleration = 1.0
-        desired_velocity = 1.0
+        desired_velocity = 3.0
         
         position = msg.pose.pose.position
         orientation = msg.pose.pose.orientation
