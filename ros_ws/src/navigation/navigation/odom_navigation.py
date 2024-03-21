@@ -34,7 +34,7 @@ class odomNavigation(Node):
         self.timer.cancel()    
 
     def button_callback(self, msg):
-        if  not button_state.data:
+        if  not msg.data:
             self.publish_ackermann_cmd(0.0, 0.0, 0.0)
     
     def stop_callback(self,msg):

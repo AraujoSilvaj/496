@@ -17,7 +17,7 @@ class Waypoints(Node):
         self.waypoint_index = 0
     
     def button_callback(self, msg):
-        if  not button_state.data:
+        if  not msg.data:
             self.waypoint_index = 0
         
     def pose_callback(self, msg):
