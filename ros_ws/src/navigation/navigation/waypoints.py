@@ -11,7 +11,7 @@ class Waypoints(Node):
         super().__init__('waypoints')
         self.subscriber = self.create_subscription(Odometry, 'odometry/filtered', self.pose_callback, 10)
         self.waypoint_pub = self.create_publisher(PoseStamped, 'current_waypoint', 10)
-        self.waypoints = self.load_waypoints('/496/ros_ws/src/navigation/4_corners_waypoints.txt')
+        self.waypoints = self.load_waypoints('/496/ros_ws/src/navigation/4_corners_waypoints_indoors.txt')
         self.stop_pub = self.create_publisher(Bool, 'stop_robot', 10)
         self.subscription = self.create_subscription(Bool, 'button_state', self.button_callback, 10)
         self.waypoint_index = 0
@@ -33,7 +33,7 @@ class Waypoints(Node):
             distance_to_waypoint = self.calculate_distance(position, next_waypoint.position)
             
             print("Waypoint index: ", self.waypoint_index)
-            print("Waypoint: ", next_waypoint)
+            #print("Waypoint: ", next_waypoint)
             print()
             
             waypoint_msg = PoseStamped()

@@ -17,6 +17,7 @@ class odomNavigation(Node):
         self.publisher = self.create_publisher(AckermannDriveStamped, 'ackermann_cmd', 10)
         self.waypoint_sub = self.create_subscription(PoseStamped, 'current_waypoint', self.waypoint_callback, 10)
         self.current_waypoint = None
+        self.button_state = False
         
         # Create a timer to publish an initial Ackermann command
         self.timer = self.create_timer(1.0, self.publish_initial_cmd)
@@ -34,6 +35,7 @@ class odomNavigation(Node):
         self.timer.cancel()    
 
     def button_callback(self, msg):
+        self.button_state = msg.data
         if  not msg.data:
             self.publish_ackermann_cmd(0.0, 0.0, 0.0)
     
@@ -51,7 +53,7 @@ class odomNavigation(Node):
         
     def pose_callback(self, msg):
         acceleration = 1.0
-        desired_velocity = 3.0
+        desired_velocity = 1.0
         
         position = msg.pose.pose.position
         orientation = msg.pose.pose.orientation
@@ -60,8 +62,9 @@ class odomNavigation(Node):
         
         if self.current_waypoint is not None:       
             desired_steering_angle = self.calculate_steering_angle(position, orientation, self.current_waypoint)
-        
-            self.publish_ackermann_cmd(desired_velocity, acceleration, desired_steering_angle)
+            
+            if self.button_state:
+                self.publish_ackermann_cmd(desired_velocity, acceleration, desired_steering_angle)
        
     def calculate_distance(self, position1, position2):
         dx = position1.x -position2.x

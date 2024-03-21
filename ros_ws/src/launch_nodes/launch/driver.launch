@@ -20,11 +20,14 @@
        <arg name="node_name" value="vesc_to_odom_node"/>
     </include>
     
-    <node pkg="navigation" exec="waypoints" name="waypoints" output="screen"/>
     
+    <node pkg="navigation" exec="waypoints" name="waypoints" output="screen"/>
+  
+ 
     <node pkg="navigation" exec="driving" name="driver" output="screen"/>
+
     <!--
-    <node pkg="button_publisher" exec="button_publisher" name="button_state output="screen"/>
-    -->   
+    <node pkg="button_publisher" exec="button_publisher" name="button_state" output="screen"/>
+    -->
 
 </launch>
