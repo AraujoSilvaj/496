@@ -34,7 +34,7 @@ class Waypoints(Node):
             
             print("Waypoint index: ", self.waypoint_index)
             #print("Waypoint: ", next_waypoint)
-            print()
+            #print()
             
             waypoint_msg = PoseStamped()
             waypoint_msg.pose = next_waypoint

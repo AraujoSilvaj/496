@@ -84,8 +84,8 @@ class odomNavigation(Node):
         angle_diff = waypoint_angle - robot_heading
         
         print("waypoint vector: ", waypoint_vector)
-        print("robot heading: ", robot_heading)
-        print("angle dif: ", angle_diff)
+        #print("robot heading: ", robot_heading)
+        #print("angle dif: ", angle_diff)
         
         # normalize the angle difference to [-pi,pi]
         angle_diff = (angle_diff + math.pi) % (2 * math.pi) - math.pi
@@ -98,9 +98,9 @@ class odomNavigation(Node):
         # go to goal approach
         desired_steering_angle = max(-max_steering_angle, min(max_steering_angle, angle_diff))
         
-        print("normalized angle dif: ", angle_diff)
+        #print("normalized angle dif: ", angle_diff)
         print("Desired Steering Angle: ", desired_steering_angle)
-        print()
+        #print()
         
         return desired_steering_angle
         
