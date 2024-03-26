@@ -11,7 +11,7 @@ class Point:
         self.y = y
     
     def __repr__(self):
-        returnf"Point({self.x}, {self.y})"
+        return f"Point({self.x}, {self.y})"
         
 class Vector:
     def __init__(self,x,y):
@@ -19,7 +19,7 @@ class Vector:
         self.y = y
         
     def __repr__(self):
-        returnf"Vector({self.x}, {self.y})"  
+        return f"Vector({self.x}, {self.y})"  
         
     def magnitude(self):
         return sqrt(self.x**2 + self.y**2)
@@ -33,8 +33,8 @@ class Ray:
         self.point = point
         self.direction = direction.normalize()
         
-   def __repr__(self):
-        returnf"Ray({self.point}, {self.direction})"
+    def __repr__(self):
+        return f"Ray({self.point}, {self.direction})"
         
 class Circle:
     def __init__(self, center):
@@ -134,26 +134,6 @@ class BoxSubscriber(Node):
 			    intersection_point = circle.intersect_ray(ray)
 			    if intersection_point:
 			        distance = sqrt((intersection_point.x - ray.point.x)**2 + (intersection_point.y - ray.point.y)**2)
-			        
-			 '''       
-			if scan.angle_min <= angle <= scan.angle_max:
-				# Calculate the index corresponding to the angle in scan.ranges
-				index = int((angle - scan.angle_min) / scan.angle_increment)
-				# Ensure the index is within bounds
-				index = min(max(0, index), num_readings - 1)
-				index = len(scan.ranges) - index
-				print("Angle: ",angle)
-				print("Distance: ", distances[i])
-				print("Index: ", index)
-				scan.ranges[index] = distances[i]
-				
-        			# Use the index to set the corresponding distance
-				if index < len(distances):
-					scan.ranges[index] = distances[i]
-				else:
-					# Set to max range if index is out of bounds
-					scan.ranges[index] = scan.range_max  
-					'''
 
 		self.publisher.publish(scan)
 		print("Laserscan: ")

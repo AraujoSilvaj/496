@@ -12,8 +12,8 @@ from std_msgs.msg import Float32MultiArray
 from sensor_msgs.msg import Image
 #import ros2py
 
-labelling_model = load_model("../../nn-files/model-2023-12-24-13_00-320x240-55549.keras")
-predictor_model = load_model("../../nn-files/model-detector-2023-12-24-13_01-320x240-55549.keras")
+labelling_model = load_model("/496/nn-files/model-2023-12-24-13_00-320x240-55549.keras")
+predictor_model = load_model("/496/nn-files/model-detector-2023-12-24-13_01-320x240-55549.keras")
 #img_path = "../img-capture/parking-lot-right-2023-11-10-214.jpg"
 #img = image.load_img(img_path, target_size=(240, 320))
 
