@@ -1,8 +1,74 @@
 import numpy as np
+from math import sqrt, pi
 import rclpy
 from rclpy.node import Node
 from std_msgs.msg import Float32MultiArray
 from sensor_msgs.msg import LaserScan
+
+class Point:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+    
+    def __repr__(self):
+        returnf"Point({self.x}, {self.y})"
+        
+class Vector:
+    def __init__(self,x,y):
+        self.x = x
+        self.y = y
+        
+    def __repr__(self):
+        returnf"Vector({self.x}, {self.y})"  
+        
+    def magnitude(self):
+        return sqrt(self.x**2 + self.y**2)
+    
+    def normalize(self):
+        mag = self.magnitude()
+        return Vector(self.x/mag, self.y/mag)
+        
+class Ray:
+    def __init__(self, point, direction):
+        self.point = point
+        self.direction = direction.normalize()
+        
+   def __repr__(self):
+        returnf"Ray({self.point}, {self.direction})"
+        
+class Circle:
+    def __init__(self, center):
+        self.center = center
+        self.radius = 0.152 # bucket radius in meters
+        
+    def intersect_ray(self, ray):
+        U = Vector(self.center.x - ray.point.x, self.center.y - ray.point.y)
+        U1 = ray.direction.x * U.x + ray.direction.y * U.y
+        U2 = Vector(U.x - U1 * ray.direction.x, U.y - U1 * ray.direction.y)
+        d = U2.magnitude()
+
+        if d > self.radius:
+            # No Intersection
+            return None
+
+        m = np.sqrt(self.radius**2 - d**2)
+
+        P1 = Point(ray.point.x + U1 * ray.direction.x + m * ray.direction.x,
+            ray.point.y + U1 * ray.direction.y + m * ray.direction.y)
+        P2 = Point(ray.point.x + U1 * ray.direction.x - m * ray.direction.x,
+            ray.point.y + U1 * ray.direction.y - m * ray.direction.y)
+
+        # Return the closest intersection point
+        dist1 = ((P1.x - ray.point.x)**2 + (P1.y - ray.point.y)**2)**0.5
+        dist2 = ((P2.x - ray.point.x)**2 + (P2.y - ray.point.y)**2)**0.5
+
+        if dist1 < dist2:
+            return P1
+        else:
+            return P2
+
+    def __repr__(self):
+        return f"Circle({self.center}, {self.radius})"
 
 distance_list = []
 angle_list = []
@@ -36,6 +102,15 @@ class BoxSubscriber(Node):
 		angles = x_to_rads(data)
 		#print('distances: ', distances)
 		#print('angles: ', angles)
+		
+		buckets = []
+		for i in range(len(angles)):
+		    angle = angles[i]
+		    distance = distances[i]
+		    x = distance * np.cos(angle)
+		    y = distance * np.sin(angle)
+		    buckets.append(Circle(Point(x,y)))
+		
 		current_time = self.get_clock().now().to_msg()
 		scan = LaserScan()
 		scan.header.stamp = current_time
@@ -44,17 +119,23 @@ class BoxSubscriber(Node):
 		scan.angle_max = 0.681
 		scan.angle_increment = 1.362/num_readings
 		scan.time_increment = (1.0 / laser_frequency) / num_readings
-		scan.range_min = 0.5  # meters
-		scan.range_max = 20.0 # 100.0 # meters
+		scan.range_min = 0.1  # meters
+		scan.range_max = 20.0 # meters
 		
 		scan.ranges = [scan.range_max - 0.1] * num_readings
 		scan.intensities = [1.0] * num_readings  # Filling with constant value 1
 		
 
-			
-		for i in range(len(angles)):
-			angle = angles[i]
-			# Find the corresponding distance for each angle and append to scan.ranges
+        # Cast rays and populate scan.ranges with intersection points			
+		for i in range(num_readings):
+			angle = scan.angle_min + i * scan.angle_increment
+			ray = Ray(Point(0,0), Vector(np.cos(angle), np.sin(angle)))
+			for bucket in buckets:
+			    intersection_point = circle.intersect_ray(ray)
+			    if intersection_point:
+			        distance = sqrt((intersection_point.x - ray.point.x)**2 + (intersection_point.y - ray.point.y)**2)
+			        
+			 '''       
 			if scan.angle_min <= angle <= scan.angle_max:
 				# Calculate the index corresponding to the angle in scan.ranges
 				index = int((angle - scan.angle_min) / scan.angle_increment)
@@ -65,7 +146,7 @@ class BoxSubscriber(Node):
 				print("Distance: ", distances[i])
 				print("Index: ", index)
 				scan.ranges[index] = distances[i]
-				'''
+				
         			# Use the index to set the corresponding distance
 				if index < len(distances):
 					scan.ranges[index] = distances[i]
