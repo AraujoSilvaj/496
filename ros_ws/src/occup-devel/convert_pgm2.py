@@ -15,4 +15,4 @@ def image_to_pgm(img_path, out_path):
                 
     print("PGM file created successfully!")
      
-image_to_pgm("map1.jpg", "outtest.pgm")
+image_to_pgm("course.png", "outtest.pgm")
