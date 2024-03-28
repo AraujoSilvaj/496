@@ -17,7 +17,7 @@
     </include>
     
     <include file="$(find-pkg-share rob_lowe_launch)/launch/ekf.launch.py">
-       <arg name="node_name" value="vesc_to_odom_node"/>
+       <arg name="node_name" value="ekf_filter_node"/>
     </include>
     
     
