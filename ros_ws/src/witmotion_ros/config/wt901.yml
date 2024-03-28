@@ -8,7 +8,7 @@ witmotion:
     imu_publisher:
       topic_name: /imu
       frame_id: imu
-      use_native_orientation: true
+      use_native_orientation: false
       measurements:
         acceleration:
           enabled: true

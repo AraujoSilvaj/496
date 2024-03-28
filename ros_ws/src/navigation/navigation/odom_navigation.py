@@ -6,6 +6,7 @@ from std_msgs.msg import Bool
 from ackermann_msgs.msg import AckermannDriveStamped
 from geometry_msgs.msg import Pose, Quaternion, Point, PoseStamped
 import math
+import time
 
 class odomNavigation(Node):
 
@@ -23,6 +24,7 @@ class odomNavigation(Node):
         self.timer = self.create_timer(1.0, self.publish_initial_cmd)
         
     def publish_initial_cmd(self):
+        time.sleep(10)
         # Publish an initial Ackermann command to start the robot's movement
         initial_cmd = AckermannDriveStamped()
         initial_cmd.drive.speed = 1.0  # Set the initial speed
