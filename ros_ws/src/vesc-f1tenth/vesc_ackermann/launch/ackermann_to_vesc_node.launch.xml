@@ -12,6 +12,6 @@
     <!--
     <param name="steering_angle_to_servo_offset" value="0.5465" />
     -->
-    <param name="steering_angle_to_servo_offset" value="0.57" />
+    <param name="steering_angle_to_servo_offset" value="0.4675" />
   </node>
 </launch>
