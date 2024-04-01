@@ -21,6 +21,17 @@
     </include>
     
     
+    <node pkg="tf2_ros" exec="static_transform_publisher" name="imu_to_base_link_transform">
+        <param name="x" value="0.127" />
+        <param name="y" value="0" />
+        <param name="z" value="0" />
+        <param name="roll" value="0" />
+        <param name="pitch" value="0" />
+        <param name="yaw" value="0" />
+        <param name="frame_id" value="imu" />
+        <param name="child_frame_id" value="base_link" />
+    </node>
+    
     <node pkg="navigation" exec="waypoints" name="waypoints" output="screen"/>
   
     <!--
