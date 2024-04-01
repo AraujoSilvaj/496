@@ -20,7 +20,8 @@
        <arg name="node_name" value="ekf_filter_node"/>
     </include>
     
-    
+    <node pkg="tf2_ros" exec="static_transform_publisher" name="imu_to_base_link_transform" args =" 0.127 0 0 0 0 0 imu base_link"/>
+ 
     <node pkg="navigation" exec="waypoints" name="waypoints" output="screen"/>
   
  
