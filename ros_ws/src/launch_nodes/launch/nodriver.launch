@@ -27,9 +27,9 @@
     
     <node pkg="navigation" exec="waypoints" name="waypoints" output="screen"/>
     
-    node pkg="bounding_boxes" exec="boxes" name="boxes" output="screen"/>
+    <node pkg="bounding_boxes" exec="boxes" name="boxes" output="screen"/>
     
-    node pkg="bounding_boxes" exec="laser" name="laser" output="screen"/>
+    <node pkg="bounding_boxes" exec="laser" name="laser" output="screen"/>
   
     <!--
     <node pkg="navigation" exec="driving" name="driver" output="screen"/>
