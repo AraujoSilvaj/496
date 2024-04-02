@@ -35,8 +35,7 @@
     <node pkg="navigation" exec="driving" name="driver" output="screen"/>
     -->
 
-    <!--
     <node pkg="button_publisher" exec="button_publisher" name="button_state" output="screen"/>
-    -->
+    
 
 </launch>
