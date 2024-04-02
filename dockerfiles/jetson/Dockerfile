@@ -29,7 +29,7 @@ RUN apt-get update && apt-get install -y \
 	&& rm -rf /var/lib/apt/lists/*
 
 RUN pip3 install \
-	Tensorflow==2.15.0.post1 \
+	Tensorflow==2.15.0 \
 	TensorFlow pyserial opencv-python-headless \
 	Jetson.GPIO \
 	&& rm -rf /var/lib/apt/lists/*
