@@ -31,4 +31,7 @@
     <node pkg="button_publisher" exec="button_publisher" name="button_state" output="screen"/>
     -->
 
+    <!--
+    <node pkg="bounding_boxes" exec="boxes" name="bounding_boxes" output="screen"/>
+    -->
 </launch>
