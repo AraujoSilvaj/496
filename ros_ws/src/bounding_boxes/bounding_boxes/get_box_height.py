@@ -135,6 +135,8 @@ class BoxSubscriber(Node):
 				intersection_point = bucket.intersect_ray(ray)
 				if intersection_point:
 					distance = sqrt((intersection_point.x - ray.point.x)**2 + (intersection_point.y - ray.point.y)**2)
+			
+			scan.ranges[i] = distance
 
 		self.publisher.publish(scan)
 		#print("Laserscan: ")
