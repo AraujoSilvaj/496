@@ -120,7 +120,7 @@ class BoxSubscriber(Node):
 		scan.angle_increment = 1.362/num_readings
 		scan.time_increment = (1.0 / laser_frequency) / num_readings
 		scan.range_min = 0.1  # meters
-		scan.range_max = 20.0 # meters
+		scan.range_max = 30.0 # meters
 		
 		scan.ranges = [scan.range_max - 0.1] * num_readings
 		scan.intensities = [1.0] * num_readings  # Filling with constant value 1
@@ -130,6 +130,7 @@ class BoxSubscriber(Node):
 		for i in range(num_readings):
 			angle = scan.angle_min + i * scan.angle_increment
 			ray = Ray(Point(0,0), Vector(np.cos(angle), np.sin(angle)))
+			distance = scan.range_max - 0.1
 			for bucket in buckets:
 				#print(ray)
 				intersection_point = bucket.intersect_ray(ray)
