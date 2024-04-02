@@ -4,10 +4,13 @@
         <arg name="node_name" value="imu"/>
     </include>
     
+     <!--
      <include file="$(find-pkg-share vesc_driver)/launch/vesc_driver_node.launch.py">
         <arg name="node_name" value="vesc_driver"/>
-    </include>
+     </include>
+     -->
     
+
     <include file="$(find-pkg-share vesc_ackermann)/launch/ackermann_to_vesc_node.launch.xml">
        <arg name="node_name" value="ackermann_to_vesc_node"/>
     </include>
@@ -24,9 +27,9 @@
     
     <node pkg="navigation" exec="waypoints" name="waypoints" output="screen"/>
     
-    node pkg="bounding_boxes" exec="boxes" name="boxes" output="screen"/>
+    <node pkg="bounding_boxes" exec="boxes" name="boxes" output="screen"/>
     
-    node pkg="bounding_boxes" exec="laser" name="laser" output="screen"/>
+    <node pkg="bounding_boxes" exec="laser" name="laser" output="screen"/>
   
     <!--
     <node pkg="navigation" exec="driving" name="driver" output="screen"/>
