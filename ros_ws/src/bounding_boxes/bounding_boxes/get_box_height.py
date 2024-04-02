@@ -130,8 +130,9 @@ class BoxSubscriber(Node):
 		for i in range(num_readings):
 			angle = scan.angle_min + i * scan.angle_increment
 			ray = Ray(Point(0,0), Vector(np.cos(angle), np.sin(angle)))
+			print(ray)
 			for bucket in buckets:
-			    intersection_point = circle.intersect_ray(ray)
+			    intersection_point = Circle.intersect_ray(ray)
 			    if intersection_point:
 			        distance = sqrt((intersection_point.x - ray.point.x)**2 + (intersection_point.y - ray.point.y)**2)
 
