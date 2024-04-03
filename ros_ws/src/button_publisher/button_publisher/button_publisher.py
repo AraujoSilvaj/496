@@ -22,7 +22,7 @@ class ButtonPublisher(Node):
         msg = Bool()
         msg.data = button_state
         self.publisher_.publish(msg)
-        self.get_logger().info('Publishing button state: %s' % msg.data)
+        #self.get_logger().info('Publishing button state: %s' % msg.data)
 
 def main(args=None):
     rclpy.init(args=args)
