@@ -13,7 +13,7 @@ class ButtonPublisher(Node):
         GPIO.setmode(GPIO.BOARD)
         GPIO.setup(self.button_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         #self.key = 'space'
-        self.timer_ = self.create_timer(0.1, self.publish_button_state)
+        self.timer_ = self.create_timer(0.99, self.publish_button_state)
 
     def publish_button_state(self):
         button_state = bool(GPIO.input(self.button_pin))
