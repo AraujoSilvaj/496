@@ -4,10 +4,13 @@
         <arg name="node_name" value="imu"/>
     </include>
     
+     <!--
      <include file="$(find-pkg-share vesc_driver)/launch/vesc_driver_node.launch.py">
         <arg name="node_name" value="vesc_driver"/>
-    </include>
+     </include>
+     -->
     
+
     <include file="$(find-pkg-share vesc_ackermann)/launch/ackermann_to_vesc_node.launch.xml">
        <arg name="node_name" value="ackermann_to_vesc_node"/>
     </include>
@@ -20,17 +23,20 @@
        <arg name="node_name" value="ekf_filter_node"/>
     </include>
     
-    
     <node pkg="tf2_ros" exec="static_transform_publisher" name="imu_to_base_link_transform" args =" 0.127 0 0 0 0 0 imu base_link"/>
     
     <node pkg="navigation" exec="waypoints" name="waypoints" output="screen"/>
+    
+    <node pkg="bounding_boxes" exec="boxes" name="boxes" output="screen"/>
+    
+    <node pkg="bounding_boxes" exec="laser" name="laser" output="screen"/>
   
     <!--
     <node pkg="navigation" exec="driving" name="driver" output="screen"/>
     -->
 
-    <!--
+    
     <node pkg="button_publisher" exec="button_publisher" name="button_state" output="screen"/>
-    -->
+  
 
 </launch>

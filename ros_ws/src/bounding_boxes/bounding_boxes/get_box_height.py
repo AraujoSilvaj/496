@@ -73,7 +73,7 @@ class Circle:
 distance_list = []
 angle_list = []
 
-num_readings = 50  # number of readings in the laser scan, within our field of view
+num_readings = 100  # number of readings in the laser scan, within our field of view
 laser_frequency = 1 # measured in Hz, will need to update if using GPU instead of CPU
 
 class BoxSubscriber(Node):
@@ -120,7 +120,7 @@ class BoxSubscriber(Node):
 		scan.angle_increment = 1.362/num_readings
 		scan.time_increment = (1.0 / laser_frequency) / num_readings
 		scan.range_min = 0.1  # meters
-		scan.range_max = 20.0 # meters
+		scan.range_max = 30.0 # meters
 		
 		scan.ranges = [scan.range_max - 0.1] * num_readings
 		scan.intensities = [1.0] * num_readings  # Filling with constant value 1
@@ -130,15 +130,18 @@ class BoxSubscriber(Node):
 		for i in range(num_readings):
 			angle = scan.angle_min + i * scan.angle_increment
 			ray = Ray(Point(0,0), Vector(np.cos(angle), np.sin(angle)))
+			distance = scan.range_max - 0.1
 			for bucket in buckets:
-				print(ray)
-			    intersection_point = Circle.intersect_ray(ray)
-			    if intersection_point:
-			        distance = sqrt((intersection_point.x - ray.point.x)**2 + (intersection_point.y - ray.point.y)**2)
+				#print(ray)
+				intersection_point = bucket.intersect_ray(ray)
+				if intersection_point:
+					distance = sqrt((intersection_point.x - ray.point.x)**2 + (intersection_point.y - ray.point.y)**2)
+			
+			scan.ranges[i] = distance
 
 		self.publisher.publish(scan)
-		print("Laserscan: ")
-		print(scan.ranges)
+		#print("Laserscan: ")
+		#print(scan.ranges)
 		
 def main(args=None):
 	rclpy.init(args=args)
@@ -153,7 +156,7 @@ def pixel_to_distance(lst):
 	heights = lst[2::3]
 	if heights:
 		distance_list = [calculate_distance(height) for height in heights]
-		print(distance_list)
+		#print(distance_list)
 		return distance_list
 	else:
 		return []
@@ -165,7 +168,7 @@ def x_to_rads(lst):
 	x_coords = lst[0::3]
 	if x_coords:
 		angle_list = [calculate_angle(x) for x in x_coords]
-		print(angle_list)
+		#print(angle_list)
 		return(angle_list)
 	else:
 		return []
@@ -176,4 +179,3 @@ def calculate_angle(x):
 if __name__ == '__main__':
 	main()
 	
-
