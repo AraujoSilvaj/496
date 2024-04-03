@@ -73,7 +73,7 @@ class Circle:
 distance_list = []
 angle_list = []
 
-num_readings = 50  # number of readings in the laser scan, within our field of view
+num_readings = 100  # number of readings in the laser scan, within our field of view
 laser_frequency = 1 # measured in Hz, will need to update if using GPU instead of CPU
 
 class BoxSubscriber(Node):
