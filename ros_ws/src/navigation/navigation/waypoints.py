@@ -10,7 +10,7 @@ class Waypoints(Node):
     def __init__(self):
         super().__init__('waypoints')
         self.subscriber = self.create_subscription(Odometry, 'odometry/filtered', self.pose_callback, 10)
-        self.waypoint_pub = self.create_publisher(PoseStamped, 'current_waypoint', 10)
+        self.waypoint_pub = self.create_publisher(PoseStamped, 'goal_pose', 10)
         self.waypoints = self.load_waypoints('/496/ros_ws/src/navigation/small_square.txt')
         self.stop_pub = self.create_publisher(Bool, 'stop_robot', 10)
         self.subscription = self.create_subscription(Bool, 'button_state', self.button_callback, 10)
