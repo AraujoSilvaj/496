@@ -23,6 +23,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            'talker = rob_lowe_launch.occupancy_grid_pub:main',
         ],
     },
 )
