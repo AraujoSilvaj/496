@@ -32,9 +32,9 @@ class Waypoints(Node):
             next_waypoint = self.waypoints[self.waypoint_index]
             distance_to_waypoint = self.calculate_distance(position, next_waypoint.position)
             
-            print("-------distance to waypoint------")
-            print(distance_to_waypoint)
-            print("-------------------------------")
+            #print("-------distance to waypoint------")
+            #print(distance_to_waypoint)
+            #print("-------------------------------")
             #print("Waypoint index: ", self.waypoint_index)
             #print("Waypoint: ", next_waypoint)
             #print()
