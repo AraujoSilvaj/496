@@ -16,7 +16,7 @@ class odomNavigation(Node):
         self.stop_sub = self.create_subscription(Bool, 'stop_robot', self.stop_callback, 10)
         self.subscription = self.create_subscription(Bool, 'button_state', self.button_callback, 10)
         self.publisher = self.create_publisher(AckermannDriveStamped, 'ackermann_cmd', 10)
-        self.waypoint_sub = self.create_subscription(PoseStamped, 'current_waypoint', self.waypoint_callback, 10)
+        self.waypoint_sub = self.create_subscription(PoseStamped, 'goal_pose', self.waypoint_callback, 10)
         self.current_waypoint = None
         self.button_state = False
         
