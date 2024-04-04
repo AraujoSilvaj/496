@@ -21,7 +21,7 @@ class odomNavigation(Node):
         self.button_state = False
         
         # Create a timer to publish an initial Ackermann command
-        self.timer = self.create_timer(1.0, self.publish_initial_cmd)
+        #self.timer = self.create_timer(1.0, self.publish_initial_cmd)
         
     def publish_initial_cmd(self):
         time.sleep(10)
