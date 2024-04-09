@@ -15,7 +15,7 @@ slam_toolbox:
     mode: localization
 
     # if you'd like to start localizing on bringup in a map and pose
-    map_file_name: occup_grid.yaml
+    map_file_name: occupancy_grid.yaml
     map_start_pose: [0.0, 0.0, 0.0]
 
     debug_logging: true

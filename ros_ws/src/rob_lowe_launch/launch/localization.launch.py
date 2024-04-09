@@ -42,7 +42,7 @@ def generate_launch_description():
           slam_params_file,
           {
             'use_lifecycle_manager': use_lifecycle_manager,
-            #'use_sim_time': use_sim_time
+            'use_sim_time': use_sim_time
           }
         ],
         package='slam_toolbox',
