@@ -21,6 +21,7 @@ setup(
     entry_points={
         'console_scripts': [
             'message = ackermann_message.message:main',
+            'drive_no_s = ackermann_message.drive_no_s:main',
         ],
     },
 )
