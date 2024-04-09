@@ -10,8 +10,8 @@
     <param name="speed_to_erpm_offset" value="0.0" />
     <param name="steering_angle_to_servo_gain" value="-1.2135" />
     <!--
-    <param name="steering_angle_to_servo_offset" value="0.5465" />
+    <param name="steering_angle_to_servo_offset" value="0.5065" />
     -->
-    <param name="steering_angle_to_servo_offset" value="0.4675" />
+    <param name="steering_angle_to_servo_offset" value="0.445" />
   </node>
 </launch>
