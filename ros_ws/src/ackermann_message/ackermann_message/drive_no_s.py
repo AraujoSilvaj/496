@@ -39,14 +39,14 @@ class AckermannPublisher(Node):
             #print("STOP")
         
         ## Drive Course
-        elif (2 < self.i < 11): # DRIVE STRAIGHT
+        elif (2 < self.i < 12): # DRIVE STRAIGHT
             msg.drive.steering_angle = 0.0
             msg.drive.speed = 3.0
             msg.drive.acceleration = 0.004
             #print("Drive Forward 6.75 meters (22 ft)")
             
         elif (11 <= self.i < 16): #turning left
-            msg.drive.steering_angle = 0.184
+            msg.drive.steering_angle = 0.23
             msg.drive.speed = 3.0
             msg.drive.acceleration = 0.5
             #print("First Left Turn")
@@ -58,7 +58,7 @@ class AckermannPublisher(Node):
             #print("Drive through hoop")
             
         elif (24 <= self.i < 26): #turning right after hoop
-            msg.drive.steering_angle = -0.1675
+            msg.drive.steering_angle = -0.1875
             msg.drive.speed = 3.0
             msg.drive.acceleration = 0.5
             #print("Turning Right after hoop")
