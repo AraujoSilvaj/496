@@ -20,6 +20,7 @@ class AckermannPublisher(Node):
         self.current_yaw = 0.0
         self.target_yaw = 0.0
         self.turning = False
+        self.map_index = 0
     
     def button_callback(self, button_state):
         if  not button_state.data:
@@ -47,6 +48,26 @@ class AckermannPublisher(Node):
             print("STOP")
             
         print(f"Current Yaw: {self.current_yaw}")
+        
+        elif (1 < self.i < 11 and self.map_index = 0): # DRIVE STRAIGHT
+            msg.drive.steering_angle = 0.0
+            msg.drive.speed = 1.0
+            msg.drive.acceleration = 0.1
+
+        elif (self.i == 11 and self.map_index = 0): # First Turn
+            self.turning = True
+            
+        elif self.turning:
+#           Turn the vehicle until the current yaw is within 0.1 radians of the target yaw
+            if abs(self.current_yaw - self.target_yaw) > 0.1:
+                msg.drive.steering_angle = 0.2 if self.current_yaw < self.target_yaw else -0.2
+                msg.drive.speed = 1.0
+                msg.drive.acceleration = 0.5
+                print("Turning")
+            else:
+                self.turning = False
+                self.map_index += 1
+                print("FInished Turning")
             
         """   
         ## Drive Course
