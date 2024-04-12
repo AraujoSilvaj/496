@@ -18,7 +18,7 @@ class AckermannPublisher(Node):
         self.timer = self.create_timer(timer_period, self.timer_callback)
         self.i = 0
         self.current_yaw = 0.0
-        self.target_yaw = math.pi/2
+        self.target_yaw = 0.0
         self.turning = False
         self.map_index = 0
     
@@ -29,18 +29,24 @@ class AckermannPublisher(Node):
     def imu_callback(self, imu_msg):
         #Extract the yaw angle from the imu message
         quaternion = imu_msg. orientation
-        yaw = 2 * math.atan2(quaternion.z, quaternion.w)
+        self.current_yaw = 2 * math.atan2(quaternion.z, quaternion.w)
         
-        # Normalize the yaw angle to be between -pi and pi
-        self.current_yaw = (yaw + 2 * math.pi) % (2 * math.pi)
-        if self.current_yaw > math.pi:
-            self.current_yaw -= 2 * math.pi
+        # Unwrap the yaw angle to handle sign changes
+        if self.current_yaw < 0:
+            self.current_yaw += 2 * math.pi
+        
+        # If we're not currently turning, set the target yaw to 90 degrees
+        #if not self.turning:
+            #self.target_yaw = self.current_yaw + 157 # 90 degrees in radians
+            
 
     def timer_callback(self):
         msg = AckermannDriveStamped()
         msg.header.stamp = self.get_clock().now().to_msg()
         msg.header.frame_id = 'base_link'
         print(f"Current Yaw: {self.current_yaw}")
+        print(f"Target Yaw: {self.target_yaw}")
+        print(f"Map Index: {self.map_index}")
         
         if (self.i == 0):
             msg.drive.steering_angle = 1.0
@@ -49,21 +55,32 @@ class AckermannPublisher(Node):
             print("STOP")
             
         
-        elif (1 < self.i < 21 and self.map_index == 0): # DRIVE STRAIGHT
+        elif (1 < self.i < 14 and (self.map_index == 0 or self.map_index == 2)): # DRIVE STRAIGHT
             msg.drive.steering_angle = -0.0525
-            msg.drive.speed = 1.0
+            msg.drive.speed = 0.5
             msg.drive.acceleration = 0.1
 
-        elif (self.i == 21 and self.map_index == 0): # First Turn
+        elif (self.i == 14 and (self.map_index == 0 or self.map_index == 2)): # First Turn
             self.turning = True
+            if self.target_yaw >= 2 * math.pi:
+                self.target_yaw -= 2 * math.pi
+            if self.target_yaw < 0:
+                self.target_yaw += 2 * math.pi
+            self.target_yaw = self.current_yaw + 1.57
             
-        elif (1 < self.i < 11 and self.map_index == 1): # DRIVE STRAIGHT
+        elif (1 < self.i < 9 and (self.map_index == 1 or self.map_index == 3)): # DRIVE STRAIGHT
             msg.drive.steering_angle = -0.0525
             msg.drive.speed = 1.0
             msg.drive.acceleration = 0.1
 
-        elif (self.i == 11 and self.map_index == 1): # Second Turn
+        elif (self.i == 9 and (self.map_index == 1 or self.map_index == 3)): # Second Turn
             self.turning = True
+            if self.target_yaw >= 2 * math.pi:
+                self.target_yaw -= 2 * math.pi
+            if self.target_yaw < 0:
+                self.target_yaw += 2 * math.pi
+            self.target_yaw = self.current_yaw + 1.57
+            
             
         elif self.turning:
 #           Turn the vehicle until the current yaw is within 0.1 radians of the target yaw
@@ -71,18 +88,11 @@ class AckermannPublisher(Node):
                 msg.drive.steering_angle = 0.2 if self.current_yaw < self.target_yaw else -0.2
                 msg.drive.speed = 1.0
                 msg.drive.acceleration = 0.5
-                print("Turning")
             else:
                 self.turning = False
                 self.map_index += 1
                 self.i = 1
-                self.target_yaw += math.pi/2
-
-                # normalize the target_yaw to the range of -pi to pi
-                self.target_yaw = (self.target_yaw + 2*math.pi) % (2*math.pi)
-                if self.target_yaw > math.pi:
-                    self.target_yaw -= 2*math.pi
-                    
+                self.target_yaw += 1.57
                 print("FInished Turning")
             
         """   
@@ -149,4 +159,4 @@ def main(args=None):
 
 
 if __name__ == '__main__':
-    main()
+    main() 
