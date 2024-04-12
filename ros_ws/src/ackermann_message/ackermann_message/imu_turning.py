@@ -18,7 +18,7 @@ class AckermannPublisher(Node):
         self.timer = self.create_timer(timer_period, self.timer_callback)
         self.i = 0
         self.current_yaw = 0.0
-        self.target_yaw = 1.57
+        self.target_yaw = math.pi/2
         self.turning = False
         self.map_index = 0
     
@@ -76,7 +76,13 @@ class AckermannPublisher(Node):
                 self.turning = False
                 self.map_index += 1
                 self.i = 1
-                self.target_yaw += self.target_yaw
+                self.target_yaw += math.pi/2
+
+                # normalize the target_yaw to the range of -pi to pi
+                self.target_yaw = (self.target_yaw + 2*math.pi) % (2*math.pi)
+                if self.target_yaw > math.pi:
+                    self.target_yaw -= 2*math.pi
+                    
                 print("FInished Turning")
             
         """   
