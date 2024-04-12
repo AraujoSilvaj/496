@@ -5,6 +5,7 @@ from rclpy.node import Node
 from std_msgs.msg import String
 from std_msgs.msg import Bool
 from ackermann_msgs.msg import AckermannDriveStamped
+from sensor_msgs.msg import Imu
 
 #button = True
 
@@ -12,12 +13,16 @@ class AckermannPublisher(Node):
     def __init__(self):
         super().__init__('minimal_publisher')
         self.publisher = self.create_publisher(AckermannDriveStamped, 'ackermann_cmd', 10)
-        #self.subscription = self.create_subscription(Bool, 'button_state', self.listener_callback, 10)
+        #self.subscription = self.create_subscription(Bool, 'button_state', self.button_callback, 10)
+        self.subscription = self.create_subscription(Imu, '/imu', self.imu_callback, 10)
         timer_period = 0.25 # seconds
         self.timer = self.create_timer(timer_period, self.timer_callback)
         self.i = 0
+        self.current yaw = 0.0
+        self.target_yaw = 0.0
+        self.turning = False
     
-    def listener_callback(self, button_state):
+    def button_callback(self, button_state):
         #global button
         if  not button_state.data:
             self.i = 0
@@ -28,9 +33,6 @@ class AckermannPublisher(Node):
         msg = AckermannDriveStamped()
         msg.header.stamp = self.get_clock().now().to_msg()
         msg.header.frame_id = 'base_link'
-        
-        ### TODO
-        ## RECALIBRATE SERVO MIN MAX FOR FULL RANGE OF MOTION
         
         if (self.i == 0):
             msg.drive.steering_angle = 0.0
