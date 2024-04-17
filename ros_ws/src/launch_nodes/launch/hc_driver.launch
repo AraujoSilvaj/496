@@ -11,12 +11,12 @@
        <arg name="node_name" value="vesc_to_odom_node"/>
     </include>
     
-    <!--
-    <node pkg="ackermann_message" exec="drive_no_s" name="drive_no_s" output="screen"/>
-    -->
+    <node pkg="ackermann_message" exec="message" name="hardcoded_driving" output="screen"/>
 
-<include file="$(find-pkg-share witmotion_ros)/launch/wt901.launch.py">
+    <!--
+    <include file="$(find-pkg-share witmotion_ros)/launch/wt901.launch.py">
         <arg name="node_name" value="imu"/>
     </include>
+    -->
 
 </launch>
